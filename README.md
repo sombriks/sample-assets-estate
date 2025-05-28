@@ -1,5 +1,7 @@
 # [sample-assets-estate][repo]
 
+[![Java CI with Maven](https://github.com/sombriks/sample-assets-estate/actions/workflows/maven.yml/badge.svg)](https://github.com/sombriks/sample-assets-estate/actions/workflows/maven.yml)
+
 Small experiment
 
 ## Requirements
@@ -9,6 +11,7 @@ Small experiment
 - spring boot 3.5
 - sqlite 3
 - htmx 2
+- pug4j 2 
 
 ## Initial setup
 
