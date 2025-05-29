@@ -5,7 +5,7 @@ spring:
     url: jdbc:sqlite:assets-estate.db
   data:
     jdbc:
-      dialect: "org.hibernate.community.dialect.SQLiteDialect"
+      dialect: org.hibernate.community.dialect.SQLiteDialect
   liquibase:
     change-log: classpath:/db.changelog-master.yml
 logging:
