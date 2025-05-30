@@ -1,19 +1,18 @@
-package sample.assets.estate.model;
+package sample.assets.estate.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "assets")
-public class Asset {
-
+@Table(name="login_types")
+public class LoginType {
     @Id
     private Long id;
     private String name;
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created;
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
 
     public Long getId() {
