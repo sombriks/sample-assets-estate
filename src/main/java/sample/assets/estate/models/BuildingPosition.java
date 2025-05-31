@@ -32,9 +32,7 @@ public class BuildingPosition {
     private Double interest;
     private String address;
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime start;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime finish;
+    private LocalDateTime started;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
@@ -56,20 +54,12 @@ public class BuildingPosition {
         this.created = created;
     }
 
-    public LocalDateTime getFinish() {
-        return finish;
+    public LocalDateTime getStarted() {
+        return started;
     }
 
-    public void setFinish(LocalDateTime finish) {
-        this.finish = finish;
-    }
-
-    public LocalDateTime getStart() {
-        return start;
-    }
-
-    public void setStart(LocalDateTime start) {
-        this.start = start;
+    public void setStarted(LocalDateTime started) {
+        this.started = started;
     }
 
     public String getAddress() {

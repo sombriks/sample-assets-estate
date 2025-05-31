@@ -56,6 +56,8 @@ values (1, 'Inclusion'),
        (6, 'Interest change'),
        (7, 'Amount change'),
        (8, 'Department change'),
+       (9, 'In use'),
+       (10, 'Available'),
        (999, 'Other');
 
 insert into login_types(id, name)
@@ -150,8 +152,7 @@ create table consumables_position
     comment           text           not null default '',
     unit_value        decimal(12, 4) not null,
     amount            integer        not null check (amount >= 0),
-    start             timestamp,
-    finish            timestamp,
+    started           timestamp      not null default current_timestamp,
     created           timestamp      not null default current_timestamp,
     updated           timestamp
 );
@@ -168,8 +169,7 @@ create table furniture_position
     current_value     decimal(12, 4) not null,
     terminal_value    decimal(12, 4) not null,
     interest          decimal(2, 4)  not null check ( interest <= 0 ),
-    start             timestamp,
-    finish            timestamp,
+    started           timestamp      not null default current_timestamp,
     created           timestamp      not null default current_timestamp,
     updated           timestamp
 );
@@ -187,8 +187,7 @@ create table vehicles_position
     terminal_value    decimal(12, 4) not null,
     interest          decimal(2, 4)  not null check ( interest <= 0 ),
     model             text           not null default '',
-    start             timestamp,
-    finish            timestamp,
+    started           timestamp      not null default current_timestamp,
     created           timestamp      not null default current_timestamp,
     updated           timestamp
 );
@@ -206,8 +205,7 @@ create table buildings_position
     terminal_value    decimal(12, 4) not null,
     interest          decimal(2, 4)  not null check ( interest <= 0 ),
     address           text           not null,
-    start             timestamp,
-    finish            timestamp,
+    started           timestamp      not null default current_timestamp,
     created           timestamp      not null default current_timestamp,
     updated           timestamp
 );

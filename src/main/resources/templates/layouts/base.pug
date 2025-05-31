@@ -8,9 +8,12 @@ html
         //- https://pugjs.org/language/inheritance.html
         script(type="text/javascript").
           htmx.logAll()
-        block head
+          document.addEventListener('htmx:configRequest', function (evt) {
+            evt.detail.headers["X-Auth-Token"] = sessionStorage.getItem("X-Auth-Token")
+          });
+        block base-head
     body
         .section
             .container
-                block content
+                block base-content
 
