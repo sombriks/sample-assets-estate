@@ -12,8 +12,11 @@ html
             evt.detail.headers["X-Auth-Token"] = sessionStorage.getItem("X-Auth-Token")
           });
         block base-head
-    body
-        .section
+    body.content
+        section.box
             .container
                 block base-content
-
+        footer
+            .container
+                a(href="https://github.com/sombriks/sample-assets-estate" target="_blank").
+                    This is an open source project

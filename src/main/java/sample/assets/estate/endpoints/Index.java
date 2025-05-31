@@ -25,10 +25,10 @@ public class Index {
     }
 
     @GetMapping
-    public View index(@RequestHeader(name = "X-Auth-Token", required = false) String token) {
+    public ModelAndView index(@RequestHeader(name = "X-Auth-Token", required = false) String token) {
         if(accessService.valid(token))
-            return new ModelAndView("pages/index").getView();
+            return new ModelAndView("pages/index");
         else
-            return new RedirectView("/auth");
+            return new ModelAndView("redirect:/auth");
     }
 }
