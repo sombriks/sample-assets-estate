@@ -1,0 +1,16 @@
+doctype html
+html
+    head
+        title Assets Administrator
+        meta(name="viewport" content="width=device-width, initial-scale=1")/
+        link(rel="stylesheet" href="/webjars/bulma/1.0.2/css/bulma.css")/
+        script(type="text/javascript" src="/webjars/htmx.org/2.0.2/dist/htmx.js")
+        //- https://pugjs.org/language/inheritance.html
+        script(type="text/javascript").
+          htmx.logAll()
+        block head
+    body
+        .section
+            .container
+                block content
+
