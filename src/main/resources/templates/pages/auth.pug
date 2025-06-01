@@ -8,6 +8,7 @@ block base-content
     h1.title Identify Yourself
     .panel(style="max-width:300px")
         .panel-block
-            from(hx-put="/auth")
-                +input-email("Email", "email", "", "Enter your email address")
-                +input-password("Password", "password", "", "Enter your password")
+            form(hx-post="/auth")
+                +input-email("Email", "email", "Email", "Enter your email address")
+                +input-password("Password", "password", "Password", "Enter your password")
+                button.button.is-pulled-right.is-primary(type="submit") Sign in

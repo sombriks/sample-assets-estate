@@ -7,4 +7,8 @@ public class AccessService {
     public boolean valid(String token) {
         return token != null;
     }
+
+    public String signIn(String email, String password) {
+        return "a token";
+    }
 }
