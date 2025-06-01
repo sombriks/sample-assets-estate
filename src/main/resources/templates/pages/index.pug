@@ -1,4 +1,9 @@
-extends ../layouts/base
-
-block base-content
+extends ../layouts/main
+block head
+    script(type="text/javascript").
+        const token = sessionStorage.getItem('X-Auth-Token');
+        if (!token) {
+            window.location.href = '/auth';
+        }
+block content
     h1.title Assets Administrator

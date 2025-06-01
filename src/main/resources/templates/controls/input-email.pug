@@ -1,0 +1,7 @@
+mixin input-email(label, name, value="", placeholder="", help="")
+  .field
+    .control
+      label.label(for=name)= label
+      input.input(type="email", placeholder=placeholder, id=name, name=name, value=value)
+      if help
+        p.help= help
