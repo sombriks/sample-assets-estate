@@ -26,4 +26,10 @@ public class Index {
         LOG.info("index page");
         return new ModelAndView("pages/index");
     }
+
+    @GetMapping("menu")
+    public ModelAndView menu() {
+        LOG.info("menu fragment");
+        return new ModelAndView("fragments/nav-bar");
+    }
 }

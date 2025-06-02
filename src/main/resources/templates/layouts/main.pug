@@ -1,7 +1,12 @@
 extends ./base
+
 block base-head
-    //- specific scripts
+    script(type="text/javascript").
+      const token = sessionStorage.getItem('X-Auth-Token')
+      if (!token) {
+        window.location.href = '/auth'
+      }
     block head
 block base-content
-    //- menu
+    div(hx-get="/menu" hx-trigger="load")
     block content

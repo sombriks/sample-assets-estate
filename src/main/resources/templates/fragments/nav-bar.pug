@@ -1,0 +1,40 @@
+nav.navbar.has-shadow
+    .navbar-brand
+        a.navbar-burger#burgermenu(onclick="toggleBurger()")
+            span(aria-hidden="true")
+            span(aria-hidden="true")
+            span(aria-hidden="true")
+            span(aria-hidden="true")
+            script(type="text/javascript").
+                function toggleBurger(){
+                  document.getElementById("navmenu")
+                    .classList.toggle("is-active")
+                  document.getElementById("burgermenu")
+                    .classList.toggle("is-active")
+                }
+    .navbar-menu#navmenu
+        .navbar-start
+            .navbar-item.has-dropdown.is-hoverable
+                a.navbar-link Management
+                .navbar-dropdown
+                    a.navbar-item(href="/users") Users
+                    a.navbar-item(href="/departments") Departments
+            .navbar-item.has-dropdown.is-hoverable
+                a.navbar-link Assets
+                .navbar-dropdown
+                    a.navbar-item(href="/consumables") Consumables
+                    a.navbar-item(href="/furniture") Furniture
+                    a.navbar-item(href="/vehicles") Vehicles
+                    a.navbar-item(href="/buildings") Buildings
+        .navbar-end
+            .navbar-item
+                a.button(href="/profile") Profile
+            .navbar-item
+                button.button(onclick="logout()") Logout
+                script(type="text/javascript").
+                  function logout() {
+                    if (confirm("Are you sure?")) {
+                      sessionStorage.clear()
+                      window.location.href = "/"
+                    }
+                  }
