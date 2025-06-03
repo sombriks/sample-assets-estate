@@ -7,30 +7,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import sample.assets.estate.models.Department;
-import sample.assets.estate.repositories.Departments;
+import sample.assets.estate.models.Group;
+import sample.assets.estate.repositories.Groups;
 
 @Controller
-@RequestMapping("/departments")
-public class DepartmentsEP {
+@RequestMapping("/groups")
+public class GroupsEP {
 
-    private final Departments repository;
+    private final Groups repository;
 
-    public DepartmentsEP(Departments repository) {
+    public GroupsEP(Groups repository) {
         this.repository = repository;
-    }
-
-    @GetMapping
-    public String index() {
-        return "pages/departments";
     }
 
     @GetMapping("options")
     public ModelAndView options(Long defaultValue) {
-        List<Department> departments = repository.findAll();
+        List<Group> groups = repository.findAll();
         Map<String, Object> model = Map.of(
                 "defaultValue", defaultValue,
-                "departments", departments);
-        return new ModelAndView("fragments/departments/options", model);
+                "groups", groups);
+        return new ModelAndView("fragments/groups/options", model);
     }
 }

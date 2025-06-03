@@ -3,5 +3,6 @@ mixin select-group(name, value)
         .control
             label.label(for=name) Group
             .select.is-fullwidth
-                select(id=name, name=name)
-                    option(value=value ?? 0) --Choose--
+                select(id=name, name=name
+                    hx-get="/groups/options?defaultValue=" + (value ?? 0)
+                    hx-trigger="load")

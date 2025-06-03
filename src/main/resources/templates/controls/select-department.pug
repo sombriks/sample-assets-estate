@@ -3,5 +3,7 @@ mixin select-department(name, value)
         .control
             label.label(for=name) Department
             .select.is-fullwidth
-                select(id=name, name=name)
-                    option(value=value ?? 0) --Choose--
+                select(id=name, name=name 
+                    hx-get="/departments/options?defaultValue="+(value ?? 0) 
+                    hx-trigger="load")
+
