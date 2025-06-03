@@ -1,6 +1,8 @@
 include ../../controls/input-email
 include ../../controls/input-password
 include ../../controls/input-text
+include ../../controls/select-group
+include ../../controls/select-department
 
 .panel#register(style="max-width:300px")
     .panel-tabs
@@ -9,7 +11,10 @@ include ../../controls/input-text
         a.is-active Register
     .panel-block
         form(hx-post="/auth/register")
-            +input-text("Name", "name", "Name", "Enter your name")
-            +input-email("Email", "email", "Email", "Enter your email address")
-            +input-password("Password", "password", "Password", "Enter your password")
-            button.button.is-pulled-right.is-primary(type="submit") Sign in
+            +input-text("Name", "name", "", "Enter your name")
+            +input-email("Email", "email", "", "Enter your email address")
+            +input-password("Password", "password", "", "Enter your password")
+            +input-password("Confirm password", "confirm", "", "Confirm your password")
+            +select-group("groupId")
+            +select-department("departmentId")
+            button.button.is-pulled-right.is-primary(type="submit") Sign up

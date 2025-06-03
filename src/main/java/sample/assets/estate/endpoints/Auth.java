@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import sample.assets.estate.endpoints.forms.RegisterForm;
 import sample.assets.estate.service.AccessService;
 
 import java.util.Map;
@@ -48,9 +49,9 @@ public class Auth {
     }
 
     @PostMapping("register")
-    public ModelAndView signUp(String name, String email, String password) {
+    public ModelAndView signUp(@ModelAttribute RegisterForm form) {
         LOG.info("Signing up");
-        Map<String, String> model = Map.of("token", accessService.signIn(email, password));
+        Map<String, Object> model = Map.of("token", accessService.signIn(form.getEmail(), form.getPassword()));
         return new ModelAndView("fragments/auth/set-token", model);
     }
 }

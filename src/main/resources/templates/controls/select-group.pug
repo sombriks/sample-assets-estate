@@ -1,0 +1,7 @@
+mixin select-group(name, value)
+    .field
+        .control
+            label.label(for=name) Group
+            .select.is-fullwidth
+                select(id=name, name=name)
+                    option(value=value ?? 0) --Choose--
