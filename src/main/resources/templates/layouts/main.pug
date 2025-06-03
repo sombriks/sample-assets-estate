@@ -1,5 +1,7 @@
 extends ./base
 
+include ../components/menu
+
 block base-head
     script(type="text/javascript").
       const token = sessionStorage.getItem('X-Auth-Token')
@@ -8,5 +10,5 @@ block base-head
       }
     block head
 block base-content
-    div(hx-get="/menu" hx-trigger="load")
+    +menu
     block content

@@ -1,0 +1,15 @@
+include ../../controls/input-email
+include ../../controls/input-password
+include ../../controls/input-text
+
+.panel#register(style="max-width:300px")
+    .panel-tabs
+        a(hx-get="/auth/login"
+            hx-swap="outerHTML" hx-target="#register")  Login
+        a.is-active Register
+    .panel-block
+        form(hx-post="/auth/register")
+            +input-text("Name", "name", "Name", "Enter your name")
+            +input-email("Email", "email", "Email", "Enter your email address")
+            +input-password("Password", "password", "Password", "Enter your password")
+            button.button.is-pulled-right.is-primary(type="submit") Sign in

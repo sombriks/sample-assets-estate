@@ -1,14 +1,6 @@
 extends ../layouts/base
 
-include ../controls/input-email
-include ../controls/input-password
-include ../controls/input-text
 
 block base-content
     h1.title Identify Yourself
-    .panel(style="max-width:300px")
-        .panel-block
-            form(hx-post="/auth")
-                +input-email("Email", "email", "Email", "Enter your email address")
-                +input-password("Password", "password", "Password", "Enter your password")
-                button.button.is-pulled-right.is-primary(type="submit") Sign in
+    include ../fragments/auth/login

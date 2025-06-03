@@ -28,10 +28,29 @@ public class Auth {
         return "pages/auth";
     }
 
+    @GetMapping("login")
+    public String login() {
+        LOG.info("Accessing the login component");
+        return "fragments/auth/login";
+    }
+
+    @GetMapping("register")
+    public String register() {
+        LOG.info("Accessing the login component");
+        return "fragments/auth/register";
+    }
+
     @PostMapping
     public ModelAndView signIn(String email, String password) {
         LOG.info("Signing in");
         Map<String, String> model = Map.of("token", accessService.signIn(email, password));
-        return new ModelAndView("fragments/set-token", model);
+        return new ModelAndView("fragments/auth/set-token", model);
+    }
+
+    @PostMapping("register")
+    public ModelAndView signUp(String name, String email, String password) {
+        LOG.info("Signing up");
+        Map<String, String> model = Map.of("token", accessService.signIn(email, password));
+        return new ModelAndView("fragments/auth/set-token", model);
     }
 }
