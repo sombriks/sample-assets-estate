@@ -1,18 +1,18 @@
 nav.navbar.has-shadow
     .navbar-brand
-        a.navbar-burger#burgermenu(onclick="toggleBurger()")
+        a.navbar-burger#burger-menu(onclick="toggleBurger()")
             span(aria-hidden="true")
             span(aria-hidden="true")
             span(aria-hidden="true")
             span(aria-hidden="true")
             script(type="text/javascript").
                 function toggleBurger(){
-                  document.getElementById("navmenu")
+                  document.getElementById("nav-menu")
                     .classList.toggle("is-active")
-                  document.getElementById("burgermenu")
+                  document.getElementById("burger-menu")
                     .classList.toggle("is-active")
                 }
-    .navbar-menu#navmenu
+    .navbar-menu#nav-menu
         .navbar-start
             .navbar-item.has-dropdown.is-hoverable
                 a.navbar-link Management
