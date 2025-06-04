@@ -11,6 +11,9 @@ html
           document.addEventListener('htmx:configRequest', function (evt) {
             evt.detail.headers["X-Auth-Token"] = sessionStorage.getItem("X-Auth-Token")
           });
+          document.addEventListener('htmx:responseError', function (evt) {
+            console.log(evt.detail) // TODO visual feedback
+          });
         block base-head
     body.content
         section.block

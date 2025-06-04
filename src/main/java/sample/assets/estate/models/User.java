@@ -3,10 +3,11 @@ package sample.assets.estate.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,14 +17,14 @@ public class User {
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
-    @OneToMany(mappedBy = "user")
-    private Set<Login>logins;
-    @ManyToMany
-    @JoinTable(name = "users_groups")
-    private Set<Group> groups;
-    @ManyToMany
-    @JoinTable(name = "users_departments")
-    private Set<Department> departments;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Login> logins = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_groups", joinColumns = {@JoinColumn(name = "users_id")})
+    private Set<Group> groups = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_departments", joinColumns = {@JoinColumn(name = "users_id")})
+    private Set<Department> departments = new HashSet<>();
 
     public Long getId() {
         return id;
