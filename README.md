@@ -37,9 +37,7 @@ Small experiment on several things
   entry properly located in time.
 - Frontend experiment involves full [HATEOAS][hateoas] compliance combined with
   access control management.
-- Components and fragments are quite similar, except that fragments are meant to
-  server-side composition only
-- 
+- Components and controls can rely on fragments to serve their purpose properly. 
 
 [repo]: https://github.com/sombriks/sample-assets-estate
 [java]: https://dev.java

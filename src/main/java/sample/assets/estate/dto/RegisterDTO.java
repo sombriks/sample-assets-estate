@@ -1,6 +1,6 @@
-package sample.assets.estate.endpoints.forms;
+package sample.assets.estate.dto;
 
-public class RegisterForm {
+public class RegisterDTO {
 
     private String name;
     private String email;

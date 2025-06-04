@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import sample.assets.estate.endpoints.forms.RegisterForm;
+import sample.assets.estate.dto.RegisterDTO;
 import sample.assets.estate.service.AccessService;
 
 import java.util.Map;
@@ -31,13 +31,13 @@ public class Auth {
 
     @GetMapping("login")
     public String login() {
-        LOG.info("Accessing the login component");
+        LOG.info("Accessing the login fragment");
         return "fragments/auth/login";
     }
 
     @GetMapping("register")
     public String register() {
-        LOG.info("Accessing the login component");
+        LOG.info("Accessing the register fragment");
         return "fragments/auth/register";
     }
 
@@ -49,9 +49,9 @@ public class Auth {
     }
 
     @PostMapping("register")
-    public ModelAndView signUp(@ModelAttribute RegisterForm form) {
+    public ModelAndView signUp(@ModelAttribute RegisterDTO form) {
         LOG.info("Signing up");
-        Map<String, Object> model = Map.of("token", accessService.signIn(form.getEmail(), form.getPassword()));
+        Map<String, Object> model = Map.of("token", accessService.signUp(form));
         return new ModelAndView("fragments/auth/set-token", model);
     }
 }
