@@ -10,6 +10,14 @@ create table asset_types
     updated timestamp
 );
 
+create table asset_status
+(
+    id      integer   not null primary key,
+    name    text      not null unique,
+    created timestamp not null default current_timestamp,
+    updated timestamp
+);
+
 create table change_reasons
 (
     id      integer   not null primary key,
@@ -35,6 +43,7 @@ create table groups
 );
 
 -- rollback drop table asset_types;
+-- rollback drop table asset_status;
 -- rollback drop table change_reasons;
 -- rollback drop table login_types;
 -- rollback drop table groups;
@@ -46,6 +55,14 @@ values (1, 'Consumable'),
        (2, 'Furniture'),
        (3, 'Vehicle'),
        (4, 'Building');
+
+insert into asset_status(id, name)
+values (1, 'Available'),
+       (2, 'In use'),
+       (3, 'Broken'),
+       (4, 'For sale'),
+       (5, 'Out of stock'),
+       (999, 'Other');
 
 insert into change_reasons (id, name)
 values (1, 'Inclusion'),
@@ -72,6 +89,7 @@ values (1, 'Admin'),
        (3, 'Basic');
 
 -- rollback delete from asset_types;
+-- rollback delete from asset_status;
 -- rollback delete from change_reasons;
 -- rollback delete from login_types;
 -- rollback delete from groups;
@@ -115,11 +133,12 @@ create table logins
     id             integer   not null primary key autoincrement,
     login_types_id integer   not null references login_types (id),
     users_id       integer   not null references users (id) on delete cascade,
-    email          text      not null unique,
+    email          text      not null,
     challenge      text      not null,
     expires        timestamp,
     created        timestamp not null default current_timestamp,
-    updated        timestamp
+    updated        timestamp,
+    unique (login_types_id, email)
 );
 
 create table users_groups
@@ -148,6 +167,7 @@ create table consumables_position
     assets_id         integer        not null references assets (id),
     departments_id    integer        not null references departments (id),
     author            integer        not null references users (id),
+    asset_status_id   integer        not null references asset_status (id),
     change_reasons_id integer        not null references change_reasons (id),
     comment           text           not null default '',
     unit_value        decimal(12, 4) not null,
@@ -163,6 +183,7 @@ create table furniture_position
     assets_id         integer        not null references assets (id),
     departments_id    integer        not null references departments (id),
     author            integer        not null references users (id),
+    asset_status_id   integer        not null references asset_status (id),
     change_reasons_id integer        not null references change_reasons (id),
     comment           text           not null default '',
     start_value       decimal(12, 4) not null,
@@ -180,6 +201,7 @@ create table vehicles_position
     assets_id         integer        not null references assets (id),
     departments_id    integer        not null references departments (id),
     author            integer        not null references users (id),
+    asset_status_id   integer        not null references asset_status (id),
     change_reasons_id integer        not null references change_reasons (id),
     comment           text           not null default '',
     start_value       decimal(12, 4) not null,
@@ -198,6 +220,7 @@ create table buildings_position
     assets_id         integer        not null references assets (id),
     departments_id    integer        not null references departments (id),
     author            integer        not null references users (id),
+    asset_status_id   integer        not null references asset_status (id),
     change_reasons_id integer        not null references change_reasons (id),
     comment           text           not null default '',
     start_value       decimal(12, 4) not null,

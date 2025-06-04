@@ -4,17 +4,17 @@ include ../../controls/input-text
 include ../../controls/select-group
 include ../../controls/select-department
 
-.panel#register(style="max-width:300px")
+.panel#register(style="max-width:320px")
     .panel-tabs
         a(hx-get="/auth/login"
             hx-swap="outerHTML" hx-target="#register")  Login
         a.is-active Register
     .panel-block
         form(hx-post="/auth/register")
-            +input-text("Name", "name", "", "Enter your name")
-            +input-email("Email", "email", "", "Enter your email address")
-            +input-password("Password", "password", "", "Enter your password")
-            +input-password("Confirm password", "confirm", "", "Confirm your password")
+            +input-text("Name", "name")(required)
+            +input-email("Email", "email")(required)
+            +input-password("Password", "password")(required)
+            +input-password("Confirm password", "confirm")(required)
             +select-group("groupId", 1)
             +select-department("departmentId")
             button.button.is-pulled-right.is-primary(type="submit") Sign up

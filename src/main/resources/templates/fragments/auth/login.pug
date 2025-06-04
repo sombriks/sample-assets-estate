@@ -1,13 +1,13 @@
 include ../../controls/input-email
 include ../../controls/input-password
 
-.panel#login(style="max-width:300px")
+.panel#login(style="max-width:320px")
     .panel-tabs
         a.is-active Login
         a(hx-get="/auth/register"
             hx-swap="outerHTML" hx-target="#login") Register
     .panel-block
         form(hx-post="/auth")
-            +input-email("Email", "email", "Email", "Enter your email address")
-            +input-password("Password", "password", "Password", "Enter your password")
+            +input-email("Email", "email")(required)
+            +input-password("Password", "password")(required)
             button.button.is-pulled-right.is-primary(type="submit") Sign in

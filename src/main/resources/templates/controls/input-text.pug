@@ -1,7 +1,8 @@
-mixin input-text(label, name, value, placeholder, help)
-  .field
-    .control
-      label.label(for=name)= label
-      input.input(type="text", placeholder=placeholder, id=name,  name=name, value=value)
-      if help
-        p.help= help
+mixin input-text(label, name, value)
+    .field
+        .control
+            label.label(for=name)= label
+            input.input(type="text", id=name,  name=name,
+                value=value)&attributes(attributes)
+            if attributes.help
+                p.help= attributes.help

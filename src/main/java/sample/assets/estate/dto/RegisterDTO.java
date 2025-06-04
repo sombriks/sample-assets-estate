@@ -1,5 +1,10 @@
 package sample.assets.estate.dto;
 
+import sample.assets.estate.models.Login;
+import sample.assets.estate.models.User;
+
+import java.time.LocalDateTime;
+
 public class RegisterDTO {
 
     private String name;
@@ -46,5 +51,18 @@ public class RegisterDTO {
 
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public User fill(User user) {
+        user.setName(this.name);
+        user.setUpdated(LocalDateTime.now());
+        return user;
+    }
+
+    public Login fill(Login login) {
+        login.setEmail(this.email);
+        login.setChallenge(this.password);
+        login.setUpdated(LocalDateTime.now());
+        return login;
     }
 }

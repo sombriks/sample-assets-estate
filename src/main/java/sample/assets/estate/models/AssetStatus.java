@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "login_types")
-public class LoginType {
-    public static final LoginType PASSWORD = new LoginType(1L);
-
+@Table(name = "asset_status")
+public class AssetStatus {
     @Id
     private Long id;
     private String name;
@@ -16,14 +14,6 @@ public class LoginType {
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
-
-    public LoginType() {
-    }
-
-    public LoginType(Long id) {
-        this.id = id;
-    }
-
 
     public Long getId() {
         return id;
