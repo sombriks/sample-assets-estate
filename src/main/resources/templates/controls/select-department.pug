@@ -1,9 +1,17 @@
-mixin select-department(name, value)
-    .field
-        .control
-            label.label(for=name) Department
-            .select.is-fullwidth
-                select(id=name, name=name 
-                    hx-get="/departments/options?defaultValue="+(value ?? 0) 
-                    hx-trigger="load")
-
+//- first call on component
+if departments == null
+    mixin select-department(name, value)
+        .field
+            .control
+                label.label(for=name) Department
+                .select.is-fullwidth
+                    select(id=name, name=name
+                        hx-get="/departments/options?defaultValue="+(value ?? 0)
+                        hx-trigger="load")
+else
+    option(value=0) --Choose--
+    each dep in departments
+        if dep.id == defaultValue
+            option(value=dep.id selected)= dep.name
+        else
+            option(value=dep.id)= dep.name

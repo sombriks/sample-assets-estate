@@ -1,3 +1,47 @@
-mixin menu
-    //- we want an htmx request so the token can be evaluated
-    div(hx-get="/menu" hx-trigger="load" hx-swap="outerHTML")
+if user == null
+    mixin menu
+        //- we want an htmx request so the token can be evaluated
+        div(hx-get="/menu" hx-trigger="load" hx-swap="outerHTML")
+else
+    nav.navbar.has-shadow
+        .navbar-brand
+            a.navbar-item(href="/") Dashboard
+            a.navbar-burger#burger-menu(onclick="toggleBurger()")
+                span(aria-hidden="true")
+                span(aria-hidden="true")
+                span(aria-hidden="true")
+                span(aria-hidden="true")
+                script(type="text/javascript").
+                  function toggleBurger() {
+                    document.getElementById("nav-menu")
+                      .classList.toggle("is-active")
+                    document.getElementById("burger-menu")
+                      .classList.toggle("is-active")
+                  }
+        .navbar-menu#nav-menu
+            .navbar-start
+                if groups?.contains("Admin") || groups?.contains("Manager")
+                    .navbar-item.has-dropdown.is-hoverable
+                        a.navbar-link Management
+                        .navbar-dropdown
+                            if groups?.contains("Admin")
+                                a.navbar-item(href="/users") Users
+                            a.navbar-item(href="/departments") Departments
+                .navbar-item.has-dropdown.is-hoverable
+                    a.navbar-link Assets
+                    .navbar-dropdown
+                        a.navbar-item(href="/consumables") Consumables
+                        a.navbar-item(href="/furniture") Furniture
+                        a.navbar-item(href="/vehicles") Vehicles
+                        a.navbar-item(href="/buildings") Buildings
+            .navbar-end
+                a.navbar-item(href="/profile")= user.getName()
+                .navbar-item
+                    button.button(onclick="logout()") Logout
+                    script(type="text/javascript").
+                      function logout() {
+                        if (confirm("Are you sure?")) {
+                          sessionStorage.clear()
+                          window.location.href = "/"
+                        }
+                      }

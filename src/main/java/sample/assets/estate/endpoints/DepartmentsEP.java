@@ -31,6 +31,6 @@ public class DepartmentsEP {
         Map<String, Object> model = Map.of(
                 "defaultValue", defaultValue,
                 "departments", departments);
-        return new ModelAndView("fragments/departments/options", model);
+        return new ModelAndView("controls/select-department", model);
     }
 }

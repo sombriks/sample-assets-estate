@@ -26,6 +26,6 @@ public class GroupsEP {
         Map<String, Object> model = Map.of(
                 "defaultValue", defaultValue,
                 "groups", groups);
-        return new ModelAndView("fragments/groups/options", model);
+        return new ModelAndView("controls/select-group", model);
     }
 }

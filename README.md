@@ -37,7 +37,9 @@ Small experiment on several things
   entry properly located in time.
 - Frontend experiment involves full [HATEOAS][hateoas] compliance combined with
   access control management.
-- Components and controls can rely on fragments to serve their purpose properly. 
+- Components and controls can rely on fragments to serve their purpose properly.
+  In order to keep consistency, keep lazy-loaded parts of a component in the
+  **same template**.
 
 [repo]: https://github.com/sombriks/sample-assets-estate
 [java]: https://dev.java

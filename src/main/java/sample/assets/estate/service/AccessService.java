@@ -72,4 +72,12 @@ public class AccessService {
         // make a token
         return "token:" + user.getId();
     }
+
+    public User findUser(String token) {
+        // validate token
+        if(token == null) return null;
+        // find the user
+        String userId = token.substring(token.lastIndexOf(":") + 1);
+        return users.findById(Long.parseLong(userId)).orElse(null);
+    }
 }
