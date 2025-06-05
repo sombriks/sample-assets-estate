@@ -39,9 +39,9 @@ public class AccessService {
 
     public String signIn(String email, String password) {
         // get user from auth
-        Login login = logins.findByPassword(email, password);
+        Optional<Login> login = logins.findByPassword(email, password);
         // make a token
-        return "token:" + login.getUser().getId();
+        return login.isPresent() ? "token:" + login.get().getUser().getId() : null;
     }
 
     @Transactional

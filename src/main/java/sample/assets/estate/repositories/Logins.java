@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import sample.assets.estate.models.Login;
 
+import java.util.Optional;
+
 public interface Logins extends JpaRepository<Login, Long> {
     @Query("""
         select l from Login l 
@@ -11,5 +13,5 @@ public interface Logins extends JpaRepository<Login, Long> {
            and l.email = :email 
            and l.challenge = :password
         """)
-    Login findByPassword(String email, String password);
+    Optional<Login> findByPassword(String email, String password);
 }

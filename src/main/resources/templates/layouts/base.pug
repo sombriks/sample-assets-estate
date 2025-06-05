@@ -4,22 +4,34 @@ html
         title Assets Administrator
         meta(name="viewport" content="width=device-width, initial-scale=1")/
         link(rel="stylesheet" href="/webjars/bulma/1.0.2/css/bulma.css")/
+        link(rel="stylesheet" href="/general.css")/
         script(type="text/javascript" src="/webjars/htmx.org/2.0.2/dist/htmx.js")
         //- https://pugjs.org/language/inheritance.html
         script(type="text/javascript").
           htmx.logAll()
+          // we should have a token
           document.addEventListener('htmx:configRequest', function (evt) {
             evt.detail.headers["X-Auth-Token"] = sessionStorage.getItem("X-Auth-Token")
           });
+          // generic error handler
           document.addEventListener('htmx:responseError', function (evt) {
-            console.log(evt.detail) // TODO visual feedback
+            const notification = document.createElement("div")
+            notification.classList.add("notification", "is-danger")
+            notification.innerText = evt.detail?.error
+            const close = document.createElement("button")
+            close.classList.add("delete")
+            close.onclick = e => notification.parentNode.removeChild(notification)
+            notification.appendChild(close)
+            console.log(evt.detail?.xhr?.response)
+            document.querySelector(".notifications").appendChild(notification)
           });
         block base-head
     body.content
         section.block
             .container
                 block base-content
+                .notifications
         footer.block
-            .container
+            .container(style="width:100%;")
                 a.is-centered(href="https://github.com/sombriks/sample-assets-estate" target="_blank").
                     This is an open source project
