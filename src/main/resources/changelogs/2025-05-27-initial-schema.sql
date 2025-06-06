@@ -135,7 +135,6 @@ create table logins
     users_id       integer   not null references users (id) on delete cascade,
     email          text      not null,
     challenge      text      not null,
-    expires        timestamp,
     created        timestamp not null default current_timestamp,
     updated        timestamp,
     unique (login_types_id, email)

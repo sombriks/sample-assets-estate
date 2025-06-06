@@ -19,8 +19,6 @@ public class Login {
     private String email;
     private String challenge;
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime expires;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
@@ -63,14 +61,6 @@ public class Login {
 
     public void setChallenge(String challenge) {
         this.challenge = challenge;
-    }
-
-    public LocalDateTime getExpires() {
-        return expires;
-    }
-
-    public void setExpires(LocalDateTime expires) {
-        this.expires = expires;
     }
 
     public LocalDateTime getCreated() {

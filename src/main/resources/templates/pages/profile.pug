@@ -1,14 +1,15 @@
 extends ../layouts/main
 
-include ../components/personal-info
+include ../components/user-info
 include ../components/user-logins
 include ../components/user-departments
 include ../components/user-groups
 
 block content
     h1.title User profile
-    +personal-info
-    +user-logins
-    +user-departments
-    +user-groups
+    .is-justify-content-center.is-align-content-center.is-flex.is-flex-wrap-wrap
+        +user-info(class="m-4")
+        +user-logins(class="m-4")
+        +user-departments(class="m-4")
+        +user-groups(class="m-4")
 

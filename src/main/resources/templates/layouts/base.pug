@@ -6,25 +6,7 @@ html
         link(rel="stylesheet" href="/webjars/bulma/1.0.2/css/bulma.css")/
         link(rel="stylesheet" href="/general.css")/
         script(type="text/javascript" src="/webjars/htmx.org/2.0.2/dist/htmx.js")
-        //- https://pugjs.org/language/inheritance.html
-        script(type="text/javascript").
-          htmx.logAll()
-          // we should have a token
-          document.addEventListener('htmx:configRequest', function (evt) {
-            evt.detail.headers["X-Auth-Token"] = sessionStorage.getItem("X-Auth-Token")
-          });
-          // generic error handler
-          document.addEventListener('htmx:responseError', function (evt) {
-            const notification = document.createElement("div")
-            notification.classList.add("notification", "is-danger")
-            notification.innerText = evt.detail?.error
-            const close = document.createElement("button")
-            close.classList.add("delete")
-            close.onclick = e => notification.parentNode.removeChild(notification)
-            notification.appendChild(close)
-            console.log(evt.detail?.xhr?.response)
-            document.querySelector(".notifications").appendChild(notification)
-          });
+        script(type="text/javascript" src="/general.js")
         block base-head
     body.content
         section.block
