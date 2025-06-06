@@ -1,9 +1,14 @@
 extends ../layouts/main
 
+include ../components/personal-info
+include ../components/user-logins
+include ../components/user-departments
+include ../components/user-groups
+
 block content
     h1.title User profile
-    // personal info
-    // user logins
-    // user departments
-    // user groups
+    +personal-info
+    +user-logins
+    +user-departments
+    +user-groups
 
