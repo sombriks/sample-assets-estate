@@ -32,15 +32,15 @@ public class Auth {
     }
 
     @GetMapping("login")
-    public String login() {
-        LOG.info("Accessing the login fragment");
-        return "fragments/auth/login";
+    public ModelAndView login() {
+        LOG.info("Accessing the login mode");
+        return new ModelAndView("components/auth/login-register", Map.of("mode", "login"));
     }
 
     @GetMapping("register")
-    public String register() {
-        LOG.info("Accessing the register fragment");
-        return "fragments/auth/register";
+    public ModelAndView register() {
+        LOG.info("Accessing the register mode");
+        return new ModelAndView("components/auth/login-register", Map.of("mode", "register"));
     }
 
     @PostMapping
@@ -48,14 +48,16 @@ public class Auth {
         LOG.info("Signing in");
         String token = accessService.signIn(email, password);
         if (token == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        Map<String, String> model = Map.of("token", token);
-        return new ModelAndView("fragments/auth/set-token", model);
+        Map<String, String> model = Map.of("token", token, "mode", "token");
+        return new ModelAndView("components/auth/login-register", model);
     }
 
     @PostMapping("register")
     public ModelAndView signUp(@ModelAttribute RegisterDTO form) {
         LOG.info("Signing up");
-        Map<String, Object> model = Map.of("token", accessService.signUp(form));
-        return new ModelAndView("fragments/auth/set-token", model);
+        Map<String, Object> model = Map.of(
+                "token", accessService.signUp(form),
+                "mode", "token");
+        return new ModelAndView("components/auth/login-register", model);
     }
 }

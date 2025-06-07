@@ -1,0 +1,41 @@
+include ../../controls/input-text
+include ../../controls/input-email
+include ../../controls/input-password
+include ../../controls/select-department
+include ../../controls/select-group
+
+if mode == null
+    mixin login-register
+        a(hx-get="/auth/login"
+            hx-swap="outerHTML" hx-trigger="load")
+if mode == "login"
+    .panel#login(style="max-width:320px")
+        .panel-tabs
+            a.is-active Login
+            a(hx-get="/auth/register"
+                hx-swap="outerHTML" hx-target="#login") Register
+        .panel-block
+            form(hx-post="/auth")
+                +input-email("Email", "email")(required)
+                +input-password("Password", "password")(required)
+                button.button.is-pulled-right.is-primary(type="submit") Sign in
+if mode == "register"
+    .panel#register(style="max-width:320px")
+        .panel-tabs
+            a(hx-get="/auth/login"
+                hx-swap="outerHTML" hx-target="#register")  Login
+            a.is-active Register
+        .panel-block
+            form(hx-post="/auth/register")
+                +input-text("Name", "name")(required)
+                +input-email("Email", "email")(required)
+                +input-password("Password", "password")(required)
+                +input-password("Confirm password", "confirm")(required)
+                +select-group("groupId", 1)
+                +select-department("departmentId")
+                button.button.is-pulled-right.is-primary(type="submit") Sign up
+if mode == "token"
+    h2.subtitle Loading...
+    script!= `sessionStorage.setItem("X-Auth-Token", "${token}")`
+    script.
+        window.location.href = "/"

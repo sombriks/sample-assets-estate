@@ -6,4 +6,4 @@ if user == null
                 form(hx-get="/users/my-groups" hx-swap="outerHTML" hx-trigger="load")
 if user != null
     each group in user.getGroups()
-        div= group.getBame()
+        div= group.getName()

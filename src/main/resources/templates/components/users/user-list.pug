@@ -1,0 +1,15 @@
+if users == null
+    mixin user-list
+        a(hx-get="/users/list" hx-swap="outerHTML", hx-trigger="load")
+if users != null
+    table.table
+        tr
+            th(colspan=2)
+                input.input
+        tr
+            th #
+            th Name
+        each u in users
+          tr
+            td= u.getId()
+            td= u.getName()

@@ -1,4 +1,10 @@
 extends ../layouts/main
 
+include ../components/users/user-list
+
 block content
     h1.title Users management
+    .is-flex.is-flex-wrap-wrap.is-justify-content-center
+        +user-list
+    //- create new user
+    //- update/delete users

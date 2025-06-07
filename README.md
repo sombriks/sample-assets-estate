@@ -36,10 +36,10 @@ Small experiment on several things
   Instead of keep history records, the asset record itself is a transactional
   entry properly located in time.
 - Frontend experiment involves full [HATEOAS][hateoas] compliance combined with
-  access control management.
-- Components and controls can rely on fragments to serve their purpose properly.
-  In order to keep consistency, keep lazy-loaded parts of a component in the
-  **same template**.
+  proper access control management.
+- Components and controls rely on _conditional rendering_ to serve their purpose
+  properly. The same template has the default mixin declaration and further
+  states of the component/control.
 
 [repo]: https://github.com/sombriks/sample-assets-estate
 [java]: https://dev.java

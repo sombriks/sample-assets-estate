@@ -1,5 +1,7 @@
 extends ../layouts/base
 
+include ../components/auth/login-register
+
 block base-content
     h1.title Identify Yourself
-    include ../fragments/auth/login
+    +login-register

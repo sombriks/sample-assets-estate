@@ -15,6 +15,7 @@ import sample.assets.estate.repositories.Users;
 import sample.assets.estate.service.AccessService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,13 +38,26 @@ public class UsersEP {
         return "pages/users";
     }
 
+    @GetMapping("list")
+    public ModelAndView listUsers(@RequestHeader("X-Auth-Token") String token) {
+        User user = accessService.findUser(token);
+        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        // only admins can do this
+        if (user.getGroups().stream().noneMatch(g -> g.getName().equals("Admin"))) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not allowed to list users");
+        }
+        List<User> list = users.findAll();
+        Map<String, Object> model = Map.of("user", user, "users", list);
+        return new ModelAndView("components/users/user-list", model);
+    }
+
     @GetMapping("myself")
     public ModelAndView getMyself(@RequestHeader("X-Auth-Token") String token) {
         LOG.info("get user info");
         User user = accessService.findUser(token);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         Map<String, Object> model = Map.of("user", user);
-        return new ModelAndView("components/user-info", model);
+        return new ModelAndView("components/profile/user-info", model);
     }
 
     @PutMapping("myself")
@@ -56,7 +70,7 @@ public class UsersEP {
         users.save(user);
         Map<String, Object> model = Map.of("user", user,
                 "message", "User info saved successfully");
-        return new ModelAndView("components/user-info", model);
+        return new ModelAndView("components/profile/user-info", model);
     }
 
     @GetMapping("my-logins")
@@ -65,6 +79,26 @@ public class UsersEP {
         User user = accessService.findUser(token);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         Map<String, Object> model = Map.of("user", user);
-        return new ModelAndView("components/user-logins", model);
+        return new ModelAndView("components/profile/user-logins", model);
     }
+
+    @GetMapping("my-groups")
+    public ModelAndView getMyGroups(@RequestHeader("X-Auth-Token") String token) {
+        LOG.info("get user groups");
+        User user = accessService.findUser(token);
+        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        Map<String, Object> model = Map.of("user", user);
+        return new ModelAndView("components/profile/user-groups", model);
+    }
+
+    @GetMapping("my-departments")
+    public ModelAndView getMyDepartments(@RequestHeader("X-Auth-Token") String token) {
+        LOG.info("get user departments");
+        User user = accessService.findUser(token);
+        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        Map<String, Object> model = Map.of("user", user);
+        return new ModelAndView("components/profile/user-departments", model);
+    }
+
+
 }
