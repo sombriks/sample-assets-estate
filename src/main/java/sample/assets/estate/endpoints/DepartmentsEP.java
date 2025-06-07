@@ -5,9 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.models.Department;
@@ -42,16 +40,34 @@ public class DepartmentsEP {
     }
 
     @GetMapping("list")
-    public ModelAndView listDepartments(@RequestHeader("X-Auth-Token") String token, String q) {
+    public ModelAndView listDepartments(
+            @RequestHeader("X-Auth-Token") String token,
+            @RequestParam(required = false, defaultValue = "false") Boolean add,
+            @RequestParam(required = false, defaultValue = "") String q) {
+        checkPermission(token);
+        List<Department> list = repository.findByNameContainsIgnoreCaseOrderByName(q);
+        Map<String, Object> model = Map.of("departments", list, "q", q, "add", add);
+        return new ModelAndView("components/departments/department-list", model);
+    }
+
+    @PostMapping("save")
+    public ModelAndView saveDepartment(
+            @RequestHeader("X-Auth-Token") String token,
+            String departmentName) {
+        checkPermission(token);
+        Department department = new Department(departmentName);
+        repository.save(department);
+        List<Department> list = repository.findByNameContainsIgnoreCaseOrderByName("");
+        Map<String, Object> model = Map.of("departments", list);
+        return new ModelAndView("components/departments/department-list", model);
+    }
+
+    private void checkPermission(String token) {
         User user = accessService.findUser(token);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         if (user.getGroups().stream().noneMatch(g ->
                 g.getName().equals("Admin") || g.getName().equals("Manager"))) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not allowed to list users");
         }
-        if (q == null) q = "";
-        List<Department> list = repository.findByNameContainsIgnoreCaseOrderByName(q);
-        Map<String, Object> model = Map.of("departments", list, "q", q);
-        return new ModelAndView("components/departments/department-list", model);
     }
 }

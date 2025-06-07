@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.models.User;
@@ -39,14 +36,15 @@ public class UsersEP {
     }
 
     @GetMapping("list")
-    public ModelAndView listUsers(@RequestHeader("X-Auth-Token") String token, String q) {
+    public ModelAndView listUsers(
+            @RequestHeader("X-Auth-Token") String token,
+            @RequestParam(required = false, defaultValue = "") String q) {
         User user = accessService.findUser(token);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         // only admins can do this
         if (user.getGroups().stream().noneMatch(g -> g.getName().equals("Admin"))) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not allowed to list users");
         }
-        if (q == null) q = "";
         List<User> list = users.findByNameContainsIgnoreCaseOrderByName(q);
         Map<String, Object> model = Map.of("user", user, "users", list, "q", q);
         return new ModelAndView("components/users/user-list", model);

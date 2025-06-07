@@ -16,6 +16,13 @@ public class Department {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
 
+    public Department(){}
+
+    public Department(String name){
+        this.name  = name;
+        created = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }

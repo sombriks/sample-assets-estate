@@ -3,17 +3,34 @@ if departments == null
         a(hx-get="/departments/list" hx-swap="outerHTML", hx-trigger="load")
 if departments != null
     table.table.is-striped(style="min-width:320px;")
-        tr
-            th(colspan=2)
-                input.input(name="q", value=q, placeholder="Search departments"
-                    hx-get="/departments/list"
-                    hx-target="closest table"
-                    hx-swap="outerHTML"
-                    hx-trigger="input changed delay:2s")
-        tr
-            th #
-            th Name
-    each d in departments
-        tr
-            td= d.getId()
-            td= d.getName()
+        thead
+            tr
+                th(colspan=3)
+                    input.input(name="q", value=q, placeholder="Search departments"
+                        hx-get="/departments/list"
+                        hx-target="closest table"
+                        hx-swap="outerHTML"
+                        hx-trigger="input changed delay:2s")
+            tr
+                th #
+                th Name
+                th
+                    a(hx-get="/departments/list?add=true"
+                        hx-target="closest table"
+                        hx-swap="outerHTML") Add
+        tbody
+            if add == true
+                tr
+                    td
+                    td
+                        input.input(name="departmentName")
+                    td
+                        a(hx-post="/departments/save"
+                            hx-target="closest table"
+                            hx-include="closest tr"
+                            hx-swap="outerHTML") Save
+            each d in departments
+                tr
+                    td= d.getId()
+                    td= d.getName()
+                    td
