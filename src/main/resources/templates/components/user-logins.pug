@@ -1,4 +1,10 @@
 if user == null
-  mixin user-logins
-      .panel.is-info(style="min-width:320px;")&attributes(attributes)
-          .panel-heading User logins
+    mixin user-logins
+        .panel.is-info(style="min-width:320px;")&attributes(attributes)
+            .panel-heading User logins
+            .panel-block
+                form(hx-get="/users/my-logins" hx-swap="outerHTML" hx-trigger="load")
+if user != null
+    each login in user.getLogins()
+      div= login.getEmail()
+    // form(hx-put="/users/my-logins" hx-swap="outerHTML" hx-trigger="load")

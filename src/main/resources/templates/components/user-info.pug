@@ -1,5 +1,10 @@
 include ../controls/input-text
 
+//- If there is no user, then declare the mixin.
+//- it will call the server to load user on hx-trigger = load.
+//- Having an user it will declare the form and a put action for update.
+//- If there is a message, probably we did a save successfully, so notify it.
+
 if user == null
     mixin user-info
         .panel.is-info(style="min-width:320px;")&attributes(attributes)

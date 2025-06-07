@@ -58,4 +58,13 @@ public class UsersEP {
                 "message", "User info saved successfully");
         return new ModelAndView("components/user-info", model);
     }
+
+    @GetMapping("my-logins")
+    public ModelAndView getMyLogins(@RequestHeader("X-Auth-Token") String token) {
+        LOG.info("get user logins");
+        User user = accessService.findUser(token);
+        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        Map<String, Object> model = Map.of("user", user);
+        return new ModelAndView("components/user-logins", model);
+    }
 }
