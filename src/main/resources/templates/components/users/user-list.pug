@@ -2,10 +2,14 @@ if users == null
     mixin user-list
         a(hx-get="/users/list" hx-swap="outerHTML", hx-trigger="load")
 if users != null
-    table.table
+    table.table.is-striped(style="min-width:320px;")
         tr
             th(colspan=2)
-                input.input
+                input.input(name="q", value=q, placeholder="Search users"
+                    hx-get="/users/list"
+                    hx-target="closest table"
+                    hx-swap="outerHTML"
+                    hx-trigger="input changed delay:2s")
         tr
             th #
             th Name

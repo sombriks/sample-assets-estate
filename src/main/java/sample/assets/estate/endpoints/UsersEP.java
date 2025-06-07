@@ -39,15 +39,16 @@ public class UsersEP {
     }
 
     @GetMapping("list")
-    public ModelAndView listUsers(@RequestHeader("X-Auth-Token") String token) {
+    public ModelAndView listUsers(@RequestHeader("X-Auth-Token") String token, String q) {
         User user = accessService.findUser(token);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         // only admins can do this
         if (user.getGroups().stream().noneMatch(g -> g.getName().equals("Admin"))) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not allowed to list users");
         }
-        List<User> list = users.findAll();
-        Map<String, Object> model = Map.of("user", user, "users", list);
+        if (q == null) q = "";
+        List<User> list = users.findByNameContainsIgnoreCaseOrderByName(q);
+        Map<String, Object> model = Map.of("user", user, "users", list, "q", q);
         return new ModelAndView("components/users/user-list", model);
     }
 

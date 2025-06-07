@@ -1,4 +1,8 @@
 extends ../layouts/main
 
+include ../components/departments/department-list
+
 block content
     h1.title Departments management
+    .is-flex.is-flex-wrap-wrap.is-justify-content-center
+        +department-list
