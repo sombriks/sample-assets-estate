@@ -29,6 +29,9 @@ if departments != null
                             hx-target="closest table"
                             hx-include="closest tr"
                             hx-swap="outerHTML") Save
+            if success
+                script(type="text/javascript").
+                    notify("Department saved!", "is-success")
             each d in departments
                 tr
                     td= d.getId()

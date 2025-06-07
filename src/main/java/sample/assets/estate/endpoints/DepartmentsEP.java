@@ -58,7 +58,7 @@ public class DepartmentsEP {
         Department department = new Department(departmentName);
         repository.save(department);
         List<Department> list = repository.findByNameContainsIgnoreCaseOrderByName("");
-        Map<String, Object> model = Map.of("departments", list);
+        Map<String, Object> model = Map.of("departments", list, "success", true);
         return new ModelAndView("components/departments/department-list", model);
     }
 
