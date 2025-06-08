@@ -2,5 +2,4 @@ spring:
   datasource:
     url: "jdbc:sqlite::memory:"
   liquibase:
-    contexts:
-      - test
+    contexts: test
