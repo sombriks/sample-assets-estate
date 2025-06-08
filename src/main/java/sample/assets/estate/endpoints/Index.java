@@ -42,7 +42,7 @@ public class Index {
     public ModelAndView menu(@RequestHeader("X-Auth-Token") String token) {
         LOG.info("menu fragment");
         User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
         Set<String> groupNames = groups.listNamesFor(user.getId());
         Map<String, Object> model = Map.of(
                 "user", user,

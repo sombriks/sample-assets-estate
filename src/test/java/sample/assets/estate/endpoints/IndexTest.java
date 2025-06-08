@@ -1,19 +1,16 @@
 package sample.assets.estate.endpoints;
 
 import org.junit.jupiter.api.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Map;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,14 +27,24 @@ public class IndexTest {
 
     @Test
     public void shouldRenderMenu() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Auth-Token", "token:1");
-        String result = restTemplate.exchange("/menu",
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                String.class).getBody();
+        String result = doGet("/menu", "token:1");
         assertThat(result, containsString("Dashboard"));
 
+    }
+
+    @Test
+    public void shouldNotGetMenu() {
+        String result = doGet("/menu", "token:9999");
+        assertThat(result, containsString("Bad Request"));
+    }
+
+    private String doGet(String uri, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Auth-Token", token);
+        String result = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class).getBody();
+        return result;
     }
 }
 

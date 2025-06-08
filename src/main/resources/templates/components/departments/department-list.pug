@@ -37,3 +37,10 @@ if departments != null
                     td= d.getId()
                     td= d.getName()
                     td
+                        a(hx-delete="/departments/"+d.getId()
+                            hx-target="closest table"
+                            hx-confirm="Are you sure?"
+                            hx-swap="outerHTML") Remove
+            if removed
+                script(type="text/javascript").
+                  notify("Department removed!", "is-info")

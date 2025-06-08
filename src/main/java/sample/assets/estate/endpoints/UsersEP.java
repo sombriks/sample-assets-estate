@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
+import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.Users;
 import sample.assets.estate.service.AccessService;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
-public class UsersEP {
+public class UsersEP extends BaseEP {
 
     private static final Logger LOG = LoggerFactory.getLogger(UsersEP.class);
 
@@ -25,6 +26,7 @@ public class UsersEP {
     private final Users users;
 
     public UsersEP(AccessService accessService, Users users) {
+        super(accessService, "admin");
         this.accessService = accessService;
         this.users = users;
     }
@@ -37,14 +39,9 @@ public class UsersEP {
 
     @GetMapping("list")
     public ModelAndView listUsers(
-            @RequestHeader("X-Auth-Token") String token,
+            @RequestHeader(name = "X-Auth-Token") String token,
             @RequestParam(required = false, defaultValue = "") String q) {
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        // only admins can do this
-        if (user.getGroups().stream().noneMatch(g -> g.getName().equals("Admin"))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not allowed to list users");
-        }
+        User user = checkPermission(token);
         List<User> list = users.findByNameContainsIgnoreCaseOrderByName(q);
         Map<String, Object> model = Map.of("user", user, "users", list, "q", q);
         return new ModelAndView("components/users/user-list", model);
@@ -98,6 +95,5 @@ public class UsersEP {
         Map<String, Object> model = Map.of("user", user);
         return new ModelAndView("components/profile/user-departments", model);
     }
-
 
 }

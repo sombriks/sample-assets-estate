@@ -1,27 +1,24 @@
 package sample.assets.estate.endpoints;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
+import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.Department;
-import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.Departments;
 import sample.assets.estate.service.AccessService;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/departments")
-public class DepartmentsEP {
+public class DepartmentsEP extends BaseEP {
 
-    private final AccessService accessService;
     private final Departments repository;
 
     public DepartmentsEP(AccessService accessService, Departments repository) {
-        this.accessService = accessService;
+        super(accessService, "Admin", "Manager");
         this.repository = repository;
     }
 
@@ -62,12 +59,14 @@ public class DepartmentsEP {
         return new ModelAndView("components/departments/department-list", model);
     }
 
-    private void checkPermission(String token) {
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        if (user.getGroups().stream().noneMatch(g ->
-                g.getName().equals("Admin") || g.getName().equals("Manager"))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not allowed to list users");
-        }
+    @DeleteMapping("{id}")
+    public ModelAndView removeDepartment(
+            @RequestHeader("X-Auth-Token") String token,
+            @PathVariable Long id) {
+        checkPermission(token);
+        repository.deleteById(id);
+        List<Department> list = repository.findByNameContainsIgnoreCaseOrderByName("");
+        Map<String, Object> model = Map.of("departments", list, "removed", true);
+        return new ModelAndView("components/departments/department-list", model);
     }
 }
