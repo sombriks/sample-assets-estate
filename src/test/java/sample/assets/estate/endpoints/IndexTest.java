@@ -7,10 +7,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -27,24 +29,25 @@ public class IndexTest {
 
     @Test
     public void shouldRenderMenu() {
-        String result = doGet("/menu", "token:1");
-        assertThat(result, containsString("Dashboard"));
+        var result = doGet("/menu", "token:1");
+        assertThat(result.getStatusCode(), equalTo(200));
+        assertThat(result.getBody(), containsString("Dashboard"));
 
     }
 
     @Test
     public void shouldNotGetMenu() {
-        String result = doGet("/menu", "token:9999");
-        assertThat(result, containsString("Bad Request"));
+        var result = doGet("/menu", "token:9999");
+        assertThat(401, equalTo(result.getStatusCode()));
+        assertThat(result.getBody(), containsString("Unauthorized"));
     }
 
-    private String doGet(String uri, String token) {
+    private ResponseEntity<String> doGet(String uri, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Auth-Token", token);
-        String result = restTemplate.exchange(uri, HttpMethod.GET,
+        return restTemplate.exchange(uri, HttpMethod.GET,
                 new HttpEntity<>(headers),
-                String.class).getBody();
-        return result;
+                String.class);
     }
 }
 
