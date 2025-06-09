@@ -30,7 +30,7 @@ public class IndexTest {
     @Test
     public void shouldRenderMenu() {
         var result = doGet("/menu", "token:1");
-        assertThat(result.getStatusCode(), equalTo(200));
+        assertThat(result.getStatusCode().value(), equalTo(200));
         assertThat(result.getBody(), containsString("Dashboard"));
 
     }
@@ -38,7 +38,7 @@ public class IndexTest {
     @Test
     public void shouldNotGetMenu() {
         var result = doGet("/menu", "token:9999");
-        assertThat(401, equalTo(result.getStatusCode()));
+        assertThat(401, equalTo(result.getStatusCode().value()));
         assertThat(result.getBody(), containsString("Unauthorized"));
     }
 
