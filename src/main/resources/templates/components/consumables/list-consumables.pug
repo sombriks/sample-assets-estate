@@ -1,3 +1,5 @@
+include ./consumable-form
+
 if consumables == null
     mixin list-consumables
         a(hx-get="/consumables/list" hx-swap="outerHTML" hx-trigger="load")
@@ -19,12 +21,20 @@ if consumables != null
                 th Unit value
                 th Amount
                 th
+                    a(hx-get="/consumables/list?add=true"
+                        hx-target="closest table"
+                        hx-swap="outerHTML") Add
         tbody
-            tr
-                td
-                td
-                td
-                td
-                td
-                td
-                td
+            if add
+              tr
+                td(colspan=7)
+                    +consumable-form
+            each consumable in consumables
+                tr
+                    td= consumable.getAsset().getId() + "-" + consumable.getId()
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td

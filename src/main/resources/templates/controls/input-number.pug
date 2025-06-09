@@ -1,0 +1,8 @@
+mixin input-number(label, name, value)
+    .field
+        .control
+            label.label(for=name)= label
+            input.input(type="number", id=name,  name=name,
+                value=value)&attributes(attributes)
+            if attributes.help
+                p.help= attributes.help

@@ -1,0 +1,16 @@
+include ../../controls/input-number
+include ../../controls/input-text
+include ../../controls/select-department
+
+mixin consumable-form(consumable = {})
+    if consumable.getId != null
+        h2= `Edit Consumable ${consumable.getId()}`
+    else
+        h2 New entry
+        form(hx-post="/consumables" hx-target="closest table")
+            +input-text("Name","name")
+            +input-text("Description","description")
+            +select-department("departmentId")
+            +input-number("Unit value","unitValue")
+            +input-number("Amount","amount")
+            button.button.is-pulled-right.is-primary(type="submit") Save
