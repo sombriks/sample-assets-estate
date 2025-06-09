@@ -40,6 +40,10 @@ Small experiment on several things
 - Components and controls rely on _conditional rendering_ to serve their purpose
   properly. The same template has the default mixin declaration and further
   states of the component/control.
+- Tests are mostly integration tests, due to the simplicity to provision a
+  complete spring context and database with known state. The need for mocks are
+  near to zero. Thanks to [liquibase][liquibase] and its contexts, spacial
+  scripts can be used to set the database to a known state.
 
 [repo]: https://github.com/sombriks/sample-assets-estate
 [java]: https://dev.java
@@ -51,3 +55,4 @@ Small experiment on several things
 [pug]: https://github.com/neuland/pug4j
 [initializr]: https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.0&packaging=jar&jvmVersion=24&groupId=sample&artifactId=assets-estate&name=assets-estate&description=Demo%20project%20for%20Spring%20Boot&packageName=sample.assets.estate&dependencies=devtools,liquibase,data-jpa,web
 [hateoas]: https://htmx.org/essays/hateoas
+[liquibase]: https://docs.liquibase.com/home.html

@@ -1,3 +1,30 @@
 if consumables == null
     mixin list-consumables
         a(hx-get="/consumables/list" hx-swap="outerHTML" hx-trigger="load")
+if consumables != null
+    table.table.is-striped
+        thead
+            tr
+                th(colspan=7)
+                    input.input(name="q", value=q, placeholder="Search"
+                        hx-get="/consumables/list"
+                        hx-target="closest table"
+                        hx-swap="outerHTML"
+                        hx-trigger="input changed delay:2s")
+            tr
+                th AssetId-Id
+                th Name
+                th Description
+                th Department
+                th Unit value
+                th Amount
+                th
+        tbody
+            tr
+                td
+                td
+                td
+                td
+                td
+                td
+                td
