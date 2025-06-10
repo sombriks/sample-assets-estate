@@ -20,6 +20,9 @@ public class ConsumablePosition {
     @JoinColumn(name = "author")
     private User author;
     @ManyToOne
+    @JoinColumn(name = "asset_status_id")
+    private AssetStatus assetStatus;
+    @ManyToOne
     @JoinColumn(name = "change_reasons_id")
     private ChangeReason changeReason;
     private String comment;
@@ -79,6 +82,14 @@ public class ConsumablePosition {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public AssetStatus getAssetStatus() {
+        return assetStatus;
+    }
+
+    public void setAssetStatus(AssetStatus assetStatus) {
+        this.assetStatus = assetStatus;
     }
 
     public ChangeReason getChangeReason() {

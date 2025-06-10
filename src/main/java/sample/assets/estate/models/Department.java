@@ -18,6 +18,10 @@ public class Department {
 
     public Department(){}
 
+    public Department(Long id){
+        this.id = id;
+    }
+
     public Department(String name){
         this.name  = name;
         created = LocalDateTime.now();

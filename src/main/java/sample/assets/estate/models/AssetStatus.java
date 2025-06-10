@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "asset_status")
 public class AssetStatus {
+
+    public static final AssetStatus AVAILABLE = new AssetStatus(1L);
+
     @Id
     private Long id;
     private String name;
@@ -14,6 +17,14 @@ public class AssetStatus {
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
+
+    public AssetStatus(){
+
+    }
+
+    public AssetStatus(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

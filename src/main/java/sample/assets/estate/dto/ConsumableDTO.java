@@ -1,12 +1,37 @@
 package sample.assets.estate.dto;
 
+import sample.assets.estate.models.Asset;
+import sample.assets.estate.models.AssetType;
+import sample.assets.estate.models.ConsumablePosition;
+import sample.assets.estate.models.Department;
+
+import java.time.LocalDateTime;
+
 public class ConsumableDTO {
 
+    private Long id;
+    private Long assetId;
     private String name;
     private String description;
     private Long departmentId;
     private Double unitValue;
     private Long amount;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
+    }
 
     public String getName() {
         return name;
@@ -46,5 +71,30 @@ public class ConsumableDTO {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public Asset fill(Asset asset) {
+//        asset.setId(assetId);
+        asset.setName(name);
+        asset.setDescription(description);
+        asset.setType(AssetType.CONSUMABLE);
+        if(asset.getId() == null) asset.setId(this.id);
+            asset.setCreated(LocalDateTime.now());
+        asset.setUpdated(LocalDateTime.now());
+        return asset;
+    }
+
+    public ConsumablePosition fill(ConsumablePosition consumablePosition) {
+//        consumablePosition.setId(id);
+        consumablePosition.setComment(description);
+        consumablePosition.setAmount(amount);
+        consumablePosition.setUnitValue(unitValue);
+        consumablePosition.setDepartment(new Department(departmentId));
+        if(consumablePosition.getId() == null) {
+            consumablePosition.setCreated(LocalDateTime.now());
+            consumablePosition.setStarted(LocalDateTime.now());
+        }
+        consumablePosition.setUpdated(LocalDateTime.now());
+        return consumablePosition;
     }
 }

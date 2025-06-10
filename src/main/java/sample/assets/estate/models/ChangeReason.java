@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "change_reasons")
 public class ChangeReason {
+
+    public static final ChangeReason INCLUSION = new ChangeReason(1L);
+
     @Id
     private Long id;
     private String name;
@@ -14,6 +17,12 @@ public class ChangeReason {
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
+
+    public ChangeReason(){}
+
+    public ChangeReason(Long id){
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.dto.ConsumableDTO;
 import sample.assets.estate.endpoints.base.BaseEP;
@@ -52,6 +53,9 @@ public class Consumables extends BaseEP {
             @ModelAttribute ConsumableDTO form
     ) {
         User user = checkPermission(token);
+
+        var result = service.newConsumable(user, form);
+        if(result == null) throw  new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to save consumable");
 
         // https://hypermedia.systems/htmx-patterns/#_a_response_code_gotcha
         return ResponseEntity
