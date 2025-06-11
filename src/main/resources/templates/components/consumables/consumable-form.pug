@@ -1,16 +1,34 @@
 include ../../controls/input-number
 include ../../controls/input-text
 include ../../controls/select-department
+include ../../controls/select-asset-status
+include ../../controls/select-asset-change-reason
 
-mixin consumable-form(consumable = {})
-    if consumable.getId != null
-        h2= `Edit Consumable ${consumable.getId()}`
+mixin consumable-form(consumable)
+    if consumable !=null && consumable.getId() != null
+        h2= `Consumable \#${consumable.getAsset().getId()}-${consumable.getId()} details`
+        form(style="columns:3;" hx-put="/consumables" hx-target="closest table")
+            input(type="hidden", name="name", value=consumable.getAsset().getName())
+            h3= consumable.getAsset().getName()
+            input(type="hidden", name="id", value=consumable.getId())
+            h4= consumable.getAsset().getDescription()
+            h5= consumable.getStarted()
+            +select-department("departmentId", consumable.getDepartment().getId())(required)
+            +input-number("Unit value","unitValue", consumable.getUnitValue())(required)
+            +input-number("Amount","amount", consumable.getAmount())(required)
+            +input-text("Comment","comment", consumable.getComment())
+            +select-asset-status("statusId")
+            +select-asset-change-reason("reasonId")
+            button.button.is-pulled-right.is-primary(type="submit") Save new asset position
+            button.button.is-pulled-right(type="button" hx-get="/consumables/list") Cancel
     else
         h2 New entry
-        form(hx-post="/consumables" hx-target="closest table")
-            +input-text("Name","name")
-            +input-text("Description","description")
-            +select-department("departmentId")
-            +input-number("Unit value","unitValue")
-            +input-number("Amount","amount")
-            button.button.is-pulled-right.is-primary(type="submit") Save
+        form(style="columns:2;" hx-post="/consumables" hx-target="closest table")
+            +input-text("Name","name")(required)
+            +input-text("Description","description")(required)
+            +select-department("departmentId")(required)
+            +input-number("Unit value","unitValue")(required)
+            +input-number("Amount","amount")(required)
+            +input-text("Comment","comment","bew asset")
+            button.button.is-pulled-right.is-primary(type="submit") Save asset
+            button.button.is-pulled-right(type="button" hx-get="/consumables/list") Cancel

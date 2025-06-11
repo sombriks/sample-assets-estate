@@ -1,9 +1,7 @@
 package sample.assets.estate.dto;
 
-import sample.assets.estate.models.Asset;
-import sample.assets.estate.models.AssetType;
-import sample.assets.estate.models.ConsumablePosition;
-import sample.assets.estate.models.Department;
+import jakarta.validation.constraints.NotBlank;
+import sample.assets.estate.models.*;
 
 import java.time.LocalDateTime;
 
@@ -11,11 +9,15 @@ public class ConsumableDTO {
 
     private Long id;
     private Long assetId;
+    @NotBlank
     private String name;
     private String description;
     private Long departmentId;
     private Double unitValue;
     private Long amount;
+    private String comment;
+    private Long statusId;
+    private Long reasonId;
 
     public Long getId() {
         return id;
@@ -73,27 +75,53 @@ public class ConsumableDTO {
         this.amount = amount;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
+    public Long getReasonId() {
+        return reasonId;
+    }
+
+    public void setReasonId(Long reasonId) {
+        this.reasonId = reasonId;
+    }
+
     public Asset fill(Asset asset) {
-//        asset.setId(assetId);
+        asset.setId(assetId);
         asset.setName(name);
         asset.setDescription(description);
         asset.setType(AssetType.CONSUMABLE);
-        if(asset.getId() == null) asset.setId(this.id);
+        if (asset.getCreated() == null)
             asset.setCreated(LocalDateTime.now());
         asset.setUpdated(LocalDateTime.now());
         return asset;
     }
 
     public ConsumablePosition fill(ConsumablePosition consumablePosition) {
-//        consumablePosition.setId(id);
-        consumablePosition.setComment(description);
+        consumablePosition.setComment(comment);
         consumablePosition.setAmount(amount);
         consumablePosition.setUnitValue(unitValue);
+        consumablePosition.setStarted(LocalDateTime.now());
         consumablePosition.setDepartment(new Department(departmentId));
-        if(consumablePosition.getId() == null) {
+        if (reasonId != null && reasonId > 0)
+            consumablePosition.setChangeReason(new ChangeReason(reasonId));
+        if (statusId != null && statusId > 0)
+            consumablePosition.setAssetStatus(new AssetStatus(statusId));
+        if (consumablePosition.getCreated() == null)
             consumablePosition.setCreated(LocalDateTime.now());
-            consumablePosition.setStarted(LocalDateTime.now());
-        }
         consumablePosition.setUpdated(LocalDateTime.now());
         return consumablePosition;
     }

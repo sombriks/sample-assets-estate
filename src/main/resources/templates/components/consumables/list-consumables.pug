@@ -3,23 +3,35 @@ include ./consumable-form
 if consumables == null
     mixin list-consumables
         a(hx-get="/consumables/list" hx-swap="outerHTML" hx-trigger="load")
+
+if created
+    script(type="text/javascript").
+      notify("Position created!", "is-success")
+
+if updated
+    script(type="text/javascript").
+      notify("Position updated!", "is-info")
+
 if consumables != null
     table.table.is-striped
         thead
             tr
-                th(colspan=7)
+                th(colspan=9)
                     input.input(name="q", value=q, placeholder="Search"
                         hx-get="/consumables/list"
                         hx-target="closest table"
                         hx-swap="outerHTML"
                         hx-trigger="input changed delay:2s")
             tr
-                th AssetId-Id
+                th #AssetId-Id
+                th Started
                 th Name
                 th Description
                 th Department
                 th Unit value
                 th Amount
+                th Author
+                th Comment
                 th
                     a(hx-get="/consumables/list?add=true"
                         hx-target="closest table"
@@ -27,14 +39,24 @@ if consumables != null
         tbody
             if add
               tr
-                td(colspan=7)
+                td(colspan=10)
                     +consumable-form
             each consumable in consumables
                 tr
                     td= consumable.getAsset().getId() + "-" + consumable.getId()
+                    td= consumable.getStarted()
+                    td= consumable.getAsset().getName()
+                    td= consumable.getAsset().getDescription()
+                    td= consumable.getDepartment().getName()
+                    td= consumable.getUnitValue()
+                    td= consumable.getAmount()
+                    td= consumable.getAuthor().getName()
+                    td= consumable.getComment()
                     td
-                    td
-                    td
-                    td
-                    td
-                    td
+                        a(hx-get="/consumables/list?detailId="+consumable.getId()
+                            hx-target="closest table"
+                            hx-swap="outerHTML") More
+                if detail != null && detail.getId() == consumable.getId()
+                    tr
+                        td(colspan=10)
+                            +consumable-form(detail)

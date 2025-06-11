@@ -1,0 +1,16 @@
+if statuses == null
+    mixin select-asset-status(name, value)
+        .field
+            .control
+                label.label(for=name) Asset status
+                .select.is-fullwidth
+                    select(id=name, name=name
+                        hx-get="/assets/status/options?defaultValue=" + (value ?? 0)
+                        hx-trigger="load" hx-target="closest select")
+else
+    option(value=0) --Choose--
+    each st in statuses
+        if st.id == defaultValue
+            option(value=st.id selected)= st.name
+        else
+            option(value=st.id)= st.name

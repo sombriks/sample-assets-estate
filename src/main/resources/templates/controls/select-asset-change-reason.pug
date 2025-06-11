@@ -1,0 +1,16 @@
+if reasons == null
+    mixin select-asset-change-reason(name, value)
+        .field
+            .control
+                label.label(for=name) Asset Change reason
+                .select.is-fullwidth
+                    select(id=name, name=name
+                        hx-get="/assets/change-reasons/options?defaultValue=" + (value ?? 0)
+                        hx-trigger="load" hx-target="closest select")
+else
+    option(value=0) --Choose--
+    each st in reasons
+        if st.id == defaultValue
+            option(value=st.id selected)= st.name
+        else
+            option(value=st.id)= st.name
