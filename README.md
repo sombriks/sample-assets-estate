@@ -1,6 +1,7 @@
 # [sample-assets-estate][repo]
 
 [![Java CI with Maven](https://github.com/sombriks/sample-assets-estate/actions/workflows/maven.yml/badge.svg)](https://github.com/sombriks/sample-assets-estate/actions/workflows/maven.yml)
+[![Java CI with Maven](https://gitlab.com/sombriks/sample-assets-estate/badges/main/pipeline.svg)][gitlab]
 
 Small experiment on several things
 
@@ -12,7 +13,7 @@ Small experiment on several things
 - [sqlite 3][sqlite]
 - [htmx.org 2][htmx]
 - [bulma.css][bulma]
-- [pug4j 2][pug] 
+- [pug4j 2][pug]
 
 ## Initial setup
 
@@ -60,3 +61,4 @@ Small experiment on several things
 [liquibase]: https://docs.liquibase.com/home.html
 [jsr303]: https://docs.spring.io/spring-boot/reference/io/validation.html
 [dto]: https://stackoverflow.com/questions/1051182/what-is-a-data-transfer-object-dto
+[gitlab]: https://gitlab.com/sombriks/sample-assets-estate
