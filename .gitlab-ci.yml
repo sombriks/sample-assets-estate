@@ -25,7 +25,12 @@ build-job: # This job runs in the build stage, which runs first.
   stage: build
   image: openjdk:24 # Use a Docker image with OpenJDK 11.
   script:
-    - ./mvnw clean install
+    - ./mvnw clean test install
+  artifacts:
+    paths:
+      - target/site/jacoco/
+    reports:
+      coverage: target/site/jacoco/jacoco.xml
 #unit-test-job:   # This job runs in the test stage.
 #  stage: test    # It only starts when the job in the build stage completes successfully.
 #  script:

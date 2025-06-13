@@ -2,8 +2,9 @@
 
 [![Java CI with Maven](https://github.com/sombriks/sample-assets-estate/actions/workflows/maven.yml/badge.svg)](https://github.com/sombriks/sample-assets-estate/actions/workflows/maven.yml)
 [![Java CI with Maven](https://gitlab.com/sombriks/sample-assets-estate/badges/main/pipeline.svg)][gitlab]
+[![coverage report](https://gitlab.com/sombriks/sample-assets-estate/badges/main/coverage.svg)][gitlab]
 
-Small experiment on several things
+Small experiment on server side components served by htmx
 
 ## Requirements
 
