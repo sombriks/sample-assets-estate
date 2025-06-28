@@ -3,6 +3,9 @@ package sample.assets.estate.endpoints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,18 +35,19 @@ public class UsersEP extends BaseEP {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('Admin')")
     public String index() {
         LOG.info("users page");
         return "pages/users";
     }
 
     @GetMapping("list")
+    @PreAuthorize("hasRole('Admin')")
     public ModelAndView listUsers(
-            @RequestHeader(name = "X-Auth-Token") String token,
+            @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false, defaultValue = "") String q) {
-        User user = checkPermission(token);
         List<User> list = users.findByNameContainsIgnoreCaseOrderByName(q);
-        Map<String, Object> model = Map.of("user", user, "users", list, "q", q);
+        Map<String, Object> model = Map.of("user", userDetails, "users", list, "q", q);
         return new ModelAndView("components/users/user-list", model);
     }
 
@@ -97,3 +101,5 @@ public class UsersEP extends BaseEP {
     }
 
 }
+
+

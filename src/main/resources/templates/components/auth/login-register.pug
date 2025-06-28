@@ -31,11 +31,6 @@ if mode == "register"
                 +input-email("Email", "email")(required)
                 +input-password("Password", "password")(required)
                 +input-password("Confirm password", "confirm")(required)
-                +select-group("groupId", 1)
-                +select-department("departmentId")
+                +select-group("groupId", 1, "/auth")
+                +select-department("departmentId", 0, "/auth")
                 button.button.is-pulled-right.is-primary(type="submit") Sign up
-if mode == "token"
-    h2.subtitle Loading...
-    script!= `sessionStorage.setItem("X-Auth-Token", "${token}")`
-    script.
-        window.location.href = "/"

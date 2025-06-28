@@ -1,6 +1,7 @@
 package sample.assets.estate.services;
 
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sample.assets.estate.dtos.RegisterDTO;
 import sample.assets.estate.models.*;
@@ -19,16 +20,19 @@ public class AccessService {
     private final Logins logins;
     private final Groups groups;
     private final Departments  departments;
+    private final PasswordEncoder passwordEncoder;
 
     public AccessService(
             Users users,
             Logins logins,
             Groups groups,
-            Departments  departments) {
+            Departments  departments,
+            PasswordEncoder passwordEncoder) {
         this.users = users;
         this.logins = logins;
         this.groups = groups;
         this.departments = departments;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String signIn(String email, String password) {
@@ -39,7 +43,7 @@ public class AccessService {
     }
 
     @Transactional
-    public String signUp(RegisterDTO form) {
+    public User signUp(RegisterDTO form) {
         // create an user
         User user = form.fill(new User());
         user.setCreated(LocalDateTime.now());
@@ -49,6 +53,7 @@ public class AccessService {
         login.setUser(user);
         login.setLoginType(LoginType.PASSWORD);
         login.setCreated(LocalDateTime.now());
+        login.setChallenge(passwordEncoder.encode(login.getChallenge()));
         logins.save(login);
         // add into group, if any
         Optional<Group> group = groups.findById(form.getGroupId());
@@ -63,8 +68,7 @@ public class AccessService {
         user.getLogins().add(login);
         user.setUpdated(LocalDateTime.now());
         users.save(user);
-        // make a token
-        return "token:" + user.getId();
+        return user;
     }
 
     public User findUser(String token) {

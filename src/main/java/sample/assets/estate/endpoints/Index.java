@@ -44,7 +44,7 @@ public class Index {
 
     @PostMapping
     public String afterLogin() {
-        LOG.info("redirect after login ");
+        LOG.info("redirect after login");
         return "redirect:/";
     }
 
@@ -52,11 +52,10 @@ public class Index {
     public ModelAndView menu(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("menu fragment");
         UserDetailsDTO userDetailsDTO = (UserDetailsDTO) userDetails;
-        List<String> groups = userDetailsDTO.getAuthorities().stream()
-                .map(a -> a.getAuthority()).toList();
+        List<String> groups = userDetailsDTO.getGroups();
         Map<String, Object> model = Map.of(
                 "user", userDetails,
                 "groups", groups);
-        return new ModelAndView("components/menu", model);
+        return new ModelAndView("components/app-menu", model);
     }
 }

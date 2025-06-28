@@ -1,13 +1,13 @@
 if groups == null
-    mixin select-group(name, value)
+    mixin select-group(name, value, prefix)
         .field
             .control
                 label.label(for=name) Group
                 .select.is-fullwidth
                     select(id=name, name=name
-                        hx-get="/groups/options?defaultValue=" + (value ?? 0)
+                        hx-get=(prefix ?? "") + "/groups/options?defaultValue=" + (value ?? 0)
                         hx-trigger="load" hx-target="closest select")
-else
+else if groups != null
     option(value=0) --Choose--
     each group in groups
         if group.id == defaultValue

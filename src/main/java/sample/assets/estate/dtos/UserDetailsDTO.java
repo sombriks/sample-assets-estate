@@ -15,17 +15,21 @@ public class UserDetailsDTO implements UserDetails {
     private final String username;
     private final String password;
     private final Long userId;
-    private final List<Group> groups  = new ArrayList<>();
+    private final List<Group> groups = new ArrayList<>();
 
-    public UserDetailsDTO(Login login, User user){
+    public UserDetailsDTO(Login login, User user) {
         username = login.getEmail();
         password = login.getChallenge();
         userId = user.getId();
         groups.addAll(user.getGroups());
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return userId;
+    }
+
+    public List<String> getGroups() {
+        return groups.stream().map(Group::getAuthority).toList();
     }
 
     @Override
