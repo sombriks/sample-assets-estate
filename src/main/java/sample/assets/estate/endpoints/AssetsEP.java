@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.repositories.AssetStatuses;
 import sample.assets.estate.repositories.ChangeReasons;
-import sample.assets.estate.service.AccessService;
+import sample.assets.estate.services.AccessService;
 
 import java.util.Map;
 

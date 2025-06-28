@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.Department;
 import sample.assets.estate.repositories.Departments;
-import sample.assets.estate.service.AccessService;
+import sample.assets.estate.services.AccessService;
 
 import java.util.List;
 import java.util.Map;

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.Users;
-import sample.assets.estate.service.AccessService;
+import sample.assets.estate.services.AccessService;
 
 import java.time.LocalDateTime;
 import java.util.List;

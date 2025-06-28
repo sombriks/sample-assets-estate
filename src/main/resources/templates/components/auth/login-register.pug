@@ -15,7 +15,7 @@ if mode == "login"
             a(hx-get="/auth/register"
                 hx-swap="outerHTML" hx-target="#login") Register
         .panel-block
-            form(hx-post="/auth")
+            form(action="/auth/login" method="post")
                 +input-email("Email", "email")(required)
                 +input-password("Password", "password")(required)
                 button.button.is-pulled-right.is-primary(type="submit") Sign in
@@ -26,7 +26,7 @@ if mode == "register"
                 hx-swap="outerHTML" hx-target="#register")  Login
             a.is-active Register
         .panel-block
-            form(hx-post="/auth/register")
+            form(action="/auth/register" method="post")
                 +input-text("Name", "name")(required)
                 +input-email("Email", "email")(required)
                 +input-password("Password", "password")(required)

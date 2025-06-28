@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
-import sample.assets.estate.dto.ConsumableDTO;
+import sample.assets.estate.dtos.ConsumableDTO;
 import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.ConsumablePosition;
 import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.ConsumablesPosition;
-import sample.assets.estate.service.AccessService;
-import sample.assets.estate.service.ConsumablesService;
+import sample.assets.estate.services.AccessService;
+import sample.assets.estate.services.ConsumablesService;
 
 import java.net.URI;
 import java.util.HashMap;

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import sample.assets.estate.dto.RegisterDTO;
-import sample.assets.estate.service.AccessService;
+import sample.assets.estate.dtos.RegisterDTO;
+import sample.assets.estate.services.AccessService;
 
 import java.util.Map;
 
@@ -41,15 +41,6 @@ public class Auth {
     public ModelAndView register() {
         LOG.info("Accessing the register mode");
         return new ModelAndView("components/auth/login-register", Map.of("mode", "register"));
-    }
-
-    @PostMapping
-    public ModelAndView signIn(String email, String password) {
-        LOG.info("Signing in");
-        String token = accessService.signIn(email, password);
-        if (token == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        Map<String, String> model = Map.of("token", token, "mode", "token");
-        return new ModelAndView("components/auth/login-register", model);
     }
 
     @PostMapping("register")

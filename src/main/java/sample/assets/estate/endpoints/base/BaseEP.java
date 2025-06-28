@@ -3,7 +3,7 @@ package sample.assets.estate.endpoints.base;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import sample.assets.estate.models.User;
-import sample.assets.estate.service.AccessService;
+import sample.assets.estate.services.AccessService;
 
 import java.util.Arrays;
 import java.util.List;

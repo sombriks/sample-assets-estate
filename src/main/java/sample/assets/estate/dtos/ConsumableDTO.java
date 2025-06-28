@@ -1,4 +1,4 @@
-package sample.assets.estate.dto;
+package sample.assets.estate.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import sample.assets.estate.models.*;

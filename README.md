@@ -20,6 +20,14 @@ Small experiment on server side components served by htmx
 
 - [spring starter link][initializr]
 
+Generate .pem keys:
+
+```bash
+openssl genrsa -out src/main/resources/private.pem 4096
+openssl rsa -in src/main/resources/private.pem -pubout \
+ -out src/main/resources/public.pem
+```
+
 ## How to build
 
 ```bash
@@ -57,7 +65,7 @@ Small experiment on server side components served by htmx
 [htmx]: https://htmx.org
 [bulma]: https://bulma.io
 [pug]: https://github.com/neuland/pug4j
-[initializr]: https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.0&packaging=jar&jvmVersion=24&groupId=sample&artifactId=assets-estate&name=assets-estate&description=Demo%20project%20for%20Spring%20Boot&packageName=sample.assets.estate&dependencies=devtools,liquibase,data-jpa,web
+[initializr]: https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.3&packaging=jar&jvmVersion=24&groupId=sample&artifactId=assets-estate&name=assets-estate&description=Demo%20project%20for%20Spring%20Boot&packageName=sample.assets.estate&dependencies=devtools,liquibase,data-jpa,web,validation,security
 [hateoas]: https://htmx.org/essays/hateoas
 [liquibase]: https://docs.liquibase.com/home.html
 [jsr303]: https://docs.spring.io/spring-boot/reference/io/validation.html

@@ -3,11 +3,6 @@ extends ./base
 include ../components/menu
 
 block base-head
-    script(type="text/javascript").
-      const token = sessionStorage.getItem('X-Auth-Token')
-      if (!token) {
-        window.location.href = '/auth'
-      }
     block head
 block base-content
     +menu

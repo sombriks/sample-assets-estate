@@ -1,12 +1,13 @@
 package sample.assets.estate.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="groups")
-public class Group {
+public class Group implements GrantedAuthority {
     @Id
     private Long id;
     private String name;
@@ -14,6 +15,11 @@ public class Group {
     private LocalDateTime created;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updated;
+
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 
     public Long getId() {
         return id;

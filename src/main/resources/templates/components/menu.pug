@@ -35,13 +35,12 @@ else
                         a.navbar-item(href="/vehicles") Vehicles
                         a.navbar-item(href="/buildings") Buildings
             .navbar-end
-                a.navbar-item(href="/profile")= user.getName()
+                a.navbar-item(href="/profile")= user.getUsername()
                 .navbar-item
                     button.button(onclick="logout()") Logout
                     script(type="text/javascript").
                       function logout() {
                         if (confirm("Are you sure?")) {
-                          sessionStorage.clear()
-                          window.location.href = "/"
+                          window.location.href = "/logout"
                         }
                       }

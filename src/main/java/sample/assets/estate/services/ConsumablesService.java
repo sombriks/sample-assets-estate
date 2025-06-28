@@ -1,9 +1,9 @@
-package sample.assets.estate.service;
+package sample.assets.estate.services;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import sample.assets.estate.dto.ConsumableDTO;
+import sample.assets.estate.dtos.ConsumableDTO;
 import sample.assets.estate.models.*;
 import sample.assets.estate.repositories.Assets;
 import sample.assets.estate.repositories.ConsumablesPosition;

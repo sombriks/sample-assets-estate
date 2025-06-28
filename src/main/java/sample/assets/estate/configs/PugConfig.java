@@ -1,4 +1,4 @@
-package sample.assets.estate.config;
+package sample.assets.estate.configs;
 
 
 import de.neuland.pug4j.PugConfiguration;

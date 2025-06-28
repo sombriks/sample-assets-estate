@@ -1,8 +1,8 @@
-package sample.assets.estate.service;
+package sample.assets.estate.services;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import sample.assets.estate.dto.RegisterDTO;
+import sample.assets.estate.dtos.RegisterDTO;
 import sample.assets.estate.models.*;
 import sample.assets.estate.repositories.Departments;
 import sample.assets.estate.repositories.Groups;
@@ -31,15 +31,9 @@ public class AccessService {
         this.departments = departments;
     }
 
-    public boolean valid(String token) {
-        // check user from token
-        // check if still valid
-        return token != null;
-    }
-
     public String signIn(String email, String password) {
         // get user from auth
-        Optional<Login> login = logins.findByPassword(email, password);
+        Optional<Login> login = logins.find(email, password);
         // make a token
         return login.isPresent() ? "token:" + login.get().getUser().getId() : null;
     }
@@ -79,5 +73,13 @@ public class AccessService {
         // find the user
         String userId = token.substring(token.lastIndexOf(":") + 1);
         return users.findById(Long.parseLong(userId)).orElse(null);
+    }
+
+    public Optional<Login> findLoginByEmail(String email) {
+        return logins.find(email);
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return users.findByEmail(email);
     }
 }

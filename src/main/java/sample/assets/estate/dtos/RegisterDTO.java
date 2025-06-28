@@ -1,4 +1,4 @@
-package sample.assets.estate.dto;
+package sample.assets.estate.dtos;
 
 import sample.assets.estate.models.Login;
 import sample.assets.estate.models.User;
