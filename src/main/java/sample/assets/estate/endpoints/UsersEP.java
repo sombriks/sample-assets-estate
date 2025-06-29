@@ -7,10 +7,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
-import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.Users;
 import sample.assets.estate.services.AccessService;
@@ -21,7 +23,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
-public class UsersEP extends BaseEP {
+public class UsersEP {
 
     private static final Logger LOG = LoggerFactory.getLogger(UsersEP.class);
 
@@ -29,20 +31,19 @@ public class UsersEP extends BaseEP {
     private final Users users;
 
     public UsersEP(AccessService accessService, Users users) {
-        super(accessService, "admin");
         this.accessService = accessService;
         this.users = users;
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public String index() {
         LOG.info("users page");
         return "pages/users";
     }
 
     @GetMapping("list")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public ModelAndView listUsers(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false, defaultValue = "") String q) {
@@ -52,19 +53,19 @@ public class UsersEP extends BaseEP {
     }
 
     @GetMapping("myself")
-    public ModelAndView getMyself(@RequestHeader("X-Auth-Token") String token) {
+    public ModelAndView getMyself(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("get user info");
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         Map<String, Object> model = Map.of("user", user);
         return new ModelAndView("components/profile/user-info", model);
     }
 
     @PutMapping("myself")
-    public ModelAndView putMyself(@RequestHeader("X-Auth-Token") String token, String name) {
+    public ModelAndView putMyself(@AuthenticationPrincipal UserDetails userDetails, String name) {
         LOG.info("save user info");
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         user.setName(name);
         user.setUpdated(LocalDateTime.now());
         users.save(user);
@@ -74,28 +75,25 @@ public class UsersEP extends BaseEP {
     }
 
     @GetMapping("my-logins")
-    public ModelAndView getMyLogins(@RequestHeader("X-Auth-Token") String token) {
+    public ModelAndView getMyLogins(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("get user logins");
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         Map<String, Object> model = Map.of("user", user);
         return new ModelAndView("components/profile/user-logins", model);
     }
 
     @GetMapping("my-groups")
-    public ModelAndView getMyGroups(@RequestHeader("X-Auth-Token") String token) {
+    public ModelAndView getMyGroups(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("get user groups");
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         Map<String, Object> model = Map.of("user", user);
         return new ModelAndView("components/profile/user-groups", model);
     }
 
     @GetMapping("my-departments")
-    public ModelAndView getMyDepartments(@RequestHeader("X-Auth-Token") String token) {
+    public ModelAndView getMyDepartments(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("get user departments");
-        User user = accessService.findUser(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         Map<String, Object> model = Map.of("user", user);
         return new ModelAndView("components/profile/user-departments", model);
     }

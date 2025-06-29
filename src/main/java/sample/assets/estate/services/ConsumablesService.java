@@ -22,7 +22,7 @@ public class ConsumablesService {
     }
 
     public List<ConsumablePosition> listConsumables(String q, User user, Sort sort) {
-        return repository.findAll(sort);
+        return repository.findLatestPosition(q, user, sort);
     }
 
     public ConsumablePosition newConsumable(User user, ConsumableDTO form) {

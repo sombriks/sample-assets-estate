@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +33,7 @@ public class SecurityConfig {
             @Value("${spring.security.open-paths}") String[] urls,
             @Value("${spring.security.login-page}") String loginPage) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers(urls)
@@ -42,8 +44,13 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .loginPage(loginPage)
                         .loginProcessingUrl(loginPage + "/login")
-                        .successForwardUrl("/"))
-                .logout(LogoutConfigurer::permitAll)
+                        .successForwardUrl("/")
+                        .permitAll())
+                .logout(logout -> logout
+                        .clearAuthentication(true)
+                        .logoutUrl(loginPage + "/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll())
                 .build();
     }
 

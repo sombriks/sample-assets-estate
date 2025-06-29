@@ -4,12 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.dtos.ConsumableDTO;
-import sample.assets.estate.endpoints.base.BaseEP;
 import sample.assets.estate.models.ConsumablePosition;
 import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.ConsumablesPosition;
@@ -23,16 +24,17 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/consumables")
-public class Consumables extends BaseEP {
+public class Consumables {
 
     private final ConsumablesService service;
     private final ConsumablesPosition repository;
+    private final AccessService accessService;
 
     public Consumables(
             ConsumablesService service,
             ConsumablesPosition repository,
             AccessService accessService) {
-        super(accessService, "Admin", "Manager", "Basic");
+        this.accessService = accessService;
         this.repository = repository;
         this.service = service;
     }
@@ -44,17 +46,17 @@ public class Consumables extends BaseEP {
 
     @GetMapping("list")
     public ModelAndView listConsumables(
-            @RequestHeader("X-Auth-Token") String token,
+            @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false, defaultValue = "") String q,
             @RequestParam(required = false, defaultValue = "false") Boolean add,
             @RequestParam(required = false, defaultValue = "false") Boolean created,
             @RequestParam(required = false, defaultValue = "false") Boolean updated,
             @RequestParam(required = false, defaultValue = "0") Long detailId) {
-        User user = checkPermission(token);
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         List<ConsumablePosition> consumables = service.listConsumables(q, user,
                 Sort.by(Sort.Direction.ASC, "id"));
         ConsumablePosition detail = repository.findById(detailId).orElse(null);
-        Map<String, Object> model = new HashMap();
+        Map<String, Object> model = new HashMap<>();
         model.put("consumables", consumables);
         model.put("created", created);
         model.put("updated", updated);
@@ -65,10 +67,10 @@ public class Consumables extends BaseEP {
 
     @PostMapping
     public ResponseEntity createConsumable(
-            @RequestHeader("X-Auth-Token") String token,
+            @AuthenticationPrincipal UserDetails userDetails,
             @ModelAttribute @Valid ConsumableDTO form
     ) {
-        User user = checkPermission(token);
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
 
         var result = service.newConsumable(user, form);
         if (result == null)
@@ -83,10 +85,10 @@ public class Consumables extends BaseEP {
 
     @PutMapping
     public ResponseEntity updateConsumable(
-            @RequestHeader("X-Auth-Token") String token,
+            @AuthenticationPrincipal UserDetails userDetails,
             @ModelAttribute @Valid ConsumableDTO form
     ) {
-        User user = checkPermission(token);
+        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
 
         var result = service.updateConsumable(user, form);
         if (result == null)

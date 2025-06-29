@@ -42,12 +42,6 @@ public class Index {
         return new ModelAndView("pages/index");
     }
 
-    @PostMapping
-    public String afterLogin() {
-        LOG.info("redirect after login");
-        return "redirect:/";
-    }
-
     @GetMapping("menu")
     public ModelAndView menu(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("menu fragment");
@@ -57,5 +51,11 @@ public class Index {
                 "user", userDetails,
                 "groups", groups);
         return new ModelAndView("components/app-menu", model);
+    }
+
+    @PostMapping
+    public String afterLogin() {
+        LOG.info("redirect after login");
+        return "redirect:/";
     }
 }

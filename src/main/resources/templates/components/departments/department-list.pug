@@ -1,46 +1,46 @@
 if departments == null
     mixin department-list
-        a(hx-get="/departments/list" hx-swap="outerHTML", hx-trigger="load")
+        table.table.is-striped(style="min-width:320px;")
+            thead
+                tr
+                    th(colspan=3)
+                        input.input(name="q", value=q, placeholder="Search departments"
+                            hx-get="/departments/list"
+                            hx-target=".table>tbody"
+                            hx-swap="outerHTML"
+                            hx-trigger="input changed delay:2s")
+                tr
+                    th #
+                    th Name
+                    th
+                        a(hx-get="/departments/list?add=true"
+                            hx-target=".table>tbody"
+                            hx-swap="outerHTML") Add
+            tbody(hx-get="/departments/list" hx-swap="outerHTML", hx-trigger="load")
 if departments != null
-    table.table.is-striped(style="min-width:320px;")
-        thead
+    tbody
+        if add == true
             tr
-                th(colspan=3)
-                    input.input(name="q", value=q, placeholder="Search departments"
-                        hx-get="/departments/list"
-                        hx-target="closest table"
-                        hx-swap="outerHTML"
-                        hx-trigger="input changed delay:2s")
+                td
+                td
+                    input.input(name="departmentName")
+                td
+                    a(hx-post="/departments/save"
+                        hx-target=".table>tbody"
+                        hx-include="closest tr"
+                        hx-swap="outerHTML") Save
+        each d in departments
             tr
-                th #
-                th Name
-                th
-                    a(hx-get="/departments/list?add=true"
-                        hx-target="closest table"
-                        hx-swap="outerHTML") Add
-        tbody
-            if add == true
-                tr
-                    td
-                    td
-                        input.input(name="departmentName")
-                    td
-                        a(hx-post="/departments/save"
-                            hx-target="closest table"
-                            hx-include="closest tr"
-                            hx-swap="outerHTML") Save
-            if success
-                script(type="text/javascript").
-                    notify("Department saved!", "is-success")
-            each d in departments
-                tr
-                    td= d.getId()
-                    td= d.getName()
-                    td
-                        a(hx-delete="/departments/"+d.getId()
-                            hx-target="closest table"
-                            hx-confirm="Are you sure?"
-                            hx-swap="outerHTML") Remove
-            if removed
-                script(type="text/javascript").
-                  notify("Department removed!", "is-info")
+                td= d.getId()
+                td= d.getName()
+                td
+                    a(hx-delete="/departments/" + d.getId()
+                        hx-target=".table>tbody"
+                        hx-confirm="Are you sure?"
+                        hx-swap="outerHTML") Remove
+if removed
+    script(type="text/javascript").
+      notify("Department removed!", "is-info")
+if success
+    script(type="text/javascript").
+      notify("Department saved!", "is-success")

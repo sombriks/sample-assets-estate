@@ -6,7 +6,7 @@ if groups == null
                 .select.is-fullwidth
                     select(id=name, name=name
                         hx-get=(prefix ?? "") + "/groups/options?defaultValue=" + (value ?? 0)
-                        hx-trigger="load" hx-target="closest select")
+                        hx-trigger="load" hx-swap="innerHTML" hx-target="closest select")
 else if groups != null
     option(value=0) --Choose--
     each group in groups
