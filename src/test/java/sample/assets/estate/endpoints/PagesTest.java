@@ -20,10 +20,16 @@ import static org.hamcrest.Matchers.equalTo;
 @ActiveProfiles("test")
 @Import(NoSecurityConfig.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class IndexTest {
+public class PagesTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @Test
+    public void shouldGetConsumables() {
+        String result = restTemplate.getForObject("/consumables", String.class);
+        assertThat(result, containsString("Consumables management"));
+    }
 
     @Test
     public void shouldGetIndex() {
@@ -32,27 +38,10 @@ public class IndexTest {
     }
 
     @Test
-    @Disabled("needs a better test security filter")
-    public void shouldRenderMenu() {
-        var result = doGet("/menu", "token:1");
-        assertThat(result.getStatusCode().value(), equalTo(200));
-        assertThat(result.getBody(), containsString("Dashboard"));
-
+    public void shouldGetUsers() {
+        String result = restTemplate.getForObject("/users", String.class);
+        assertThat(result, containsString("Forbidden"));
     }
 
-    @Test
-    public void shouldNotGetMenu() {
-        var result = doGet("/menu", "token:9999");
-        assertThat(403, equalTo(result.getStatusCode().value()));
-        assertThat(result.getBody(), containsString("Forbidden"));
-    }
-
-    private ResponseEntity<String> doGet(String uri, String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Auth-Token", token);
-        return restTemplate.exchange(uri, HttpMethod.GET,
-                new HttpEntity<>(headers),
-                String.class);
-    }
 }
 

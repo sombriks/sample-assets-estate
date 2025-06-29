@@ -18,10 +18,4 @@ public class ConsumablesTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Test
-    public void shouldGetIndex() {
-        String result = restTemplate.getForObject("/consumables", String.class);
-        assertThat(result, containsString("Consumables management"));
-    }
 }

@@ -12,9 +12,10 @@ public interface ConsumablesPosition extends JpaRepository<ConsumablePosition, L
     @Query("""
         select cp 
           from ConsumablePosition  cp
-         where lower(cp.asset.name) like '%'||lower(:q)||'%'
-           and cp.id in (select max (cp.id) 
+         where cp.id in (select max (cp.id) 
                            from ConsumablePosition  cp
+                          where lower(cp.asset.name) like '%'||lower(:q)||'%'
+                             or lower(cp.department.name) like '%'||lower(:q)||'%'
                        group by cp.asset.id) 
     """)
     List<ConsumablePosition> findLatestPosition(String q, User user, Sort sort);

@@ -35,13 +35,6 @@ public class AccessService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String signIn(String email, String password) {
-        // get user from auth
-        Optional<Login> login = logins.find(email, password);
-        // make a token
-        return login.isPresent() ? "token:" + login.get().getUser().getId() : null;
-    }
-
     @Transactional
     public User signUp(RegisterDTO form) {
         // create an user
@@ -69,18 +62,6 @@ public class AccessService {
         user.setUpdated(LocalDateTime.now());
         users.save(user);
         return user;
-    }
-
-    public User findUser(String token) {
-        // validate token
-        if(token == null) return null;
-        // find the user
-        String userId = token.substring(token.lastIndexOf(":") + 1);
-        return users.findById(Long.parseLong(userId)).orElse(null);
-    }
-
-    public Optional<Login> findLoginByEmail(String email) {
-        return logins.find(email);
     }
 
     public Optional<User> findUserByEmail(String email) {

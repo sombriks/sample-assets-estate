@@ -54,7 +54,7 @@ public class Consumables {
             @RequestParam(required = false, defaultValue = "0") Long detailId) {
         User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         List<ConsumablePosition> consumables = service.listConsumables(q, user,
-                Sort.by(Sort.Direction.ASC, "id"));
+                Sort.by(Sort.Direction.ASC, "asset.name"));
         ConsumablePosition detail = repository.findById(detailId).orElse(null);
         Map<String, Object> model = new HashMap<>();
         model.put("consumables", consumables);
