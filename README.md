@@ -56,6 +56,9 @@ openssl rsa -in src/main/resources/private.pem -pubout \
   scripts can be used to set the database to a known state.
 - Server-side validations are handled by [jsr303][jsr303] bean validation on the
   [DTO][dto] layer.
+- Pug components, although compact, are quite fragile to formatting..
+- Spring security needs special testing adjustments in order to proper offer
+  complete integration test workflow.
 
 [repo]: https://github.com/sombriks/sample-assets-estate
 [java]: https://dev.java

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import sample.assets.estate.repositories.AssetStatuses;
 import sample.assets.estate.repositories.ChangeReasons;
-import sample.assets.estate.services.AccessService;
 
 import java.util.Map;
 

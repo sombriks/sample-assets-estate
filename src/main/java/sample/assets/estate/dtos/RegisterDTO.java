@@ -1,14 +1,17 @@
 package sample.assets.estate.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import sample.assets.estate.models.Login;
 import sample.assets.estate.models.User;
 
 import java.time.LocalDateTime;
 
 public class RegisterDTO {
-
+    @NotBlank
     private String name;
+    @NotBlank
     private String email;
+    @NotBlank
     private String password;
     private Long groupId;
     private Long departmentId;

@@ -62,7 +62,7 @@ public class Consumables {
         model.put("updated", updated);
         model.put("detail", detail);
         model.put("add", add);
-        return new ModelAndView("components/consumables/list-consumables", model);
+        return new ModelAndView("components/consumables/consumables-list", model);
     }
 
     @PostMapping

@@ -16,7 +16,7 @@ import sample.assets.estate.services.AccessService;
 @Configuration
 public class AuthConfig {
 
-    private static final Logger LOG =  LoggerFactory.getLogger(AuthConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthConfig.class);
 
     @Bean
     public UserDetailsService userDetailsService(AccessService accessService) {

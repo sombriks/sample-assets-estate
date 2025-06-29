@@ -51,53 +51,6 @@ public class UsersEP {
         Map<String, Object> model = Map.of("user", userDetails, "users", list, "q", q);
         return new ModelAndView("components/users/user-list", model);
     }
-
-    @GetMapping("myself")
-    public ModelAndView getMyself(@AuthenticationPrincipal UserDetails userDetails) {
-        LOG.info("get user info");
-        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
-        if (user == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        Map<String, Object> model = Map.of("user", user);
-        return new ModelAndView("components/profile/user-info", model);
-    }
-
-    @PutMapping("myself")
-    public ModelAndView putMyself(@AuthenticationPrincipal UserDetails userDetails, String name) {
-        LOG.info("save user info");
-        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
-        user.setName(name);
-        user.setUpdated(LocalDateTime.now());
-        users.save(user);
-        Map<String, Object> model = Map.of("user", user,
-                "message", "User info saved successfully");
-        return new ModelAndView("components/profile/user-info", model);
-    }
-
-    @GetMapping("my-logins")
-    public ModelAndView getMyLogins(@AuthenticationPrincipal UserDetails userDetails) {
-        LOG.info("get user logins");
-        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
-        Map<String, Object> model = Map.of("user", user);
-        return new ModelAndView("components/profile/user-logins", model);
-    }
-
-    @GetMapping("my-groups")
-    public ModelAndView getMyGroups(@AuthenticationPrincipal UserDetails userDetails) {
-        LOG.info("get user groups");
-        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
-        Map<String, Object> model = Map.of("user", user);
-        return new ModelAndView("components/profile/user-groups", model);
-    }
-
-    @GetMapping("my-departments")
-    public ModelAndView getMyDepartments(@AuthenticationPrincipal UserDetails userDetails) {
-        LOG.info("get user departments");
-        User user = accessService.findUserByEmail(userDetails.getUsername()).get();
-        Map<String, Object> model = Map.of("user", user);
-        return new ModelAndView("components/profile/user-departments", model);
-    }
-
 }
 
 

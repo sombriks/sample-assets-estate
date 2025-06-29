@@ -1,11 +1,8 @@
 extends ../layouts/main
 
-include ../components/consumables/list-consumables
+include ../components/consumables/consumables-list
 
 block content
     h1.title Consumables management
     .is-flex.is-flex-wrap-wrap.is-justify-content-center
-        +list-consumables
-    // save new ones
-    // see consumable history
-    // 'update' consumable (insert new position)
+        +consumables-list

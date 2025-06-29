@@ -1,5 +1,6 @@
 package sample.assets.estate.endpoints;
 
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -76,7 +77,7 @@ public class Auth {
     }
 
     @PostMapping("register")
-    public ResponseEntity signUp(@ModelAttribute RegisterDTO form) {
+    public ResponseEntity signUp(@Valid @ModelAttribute RegisterDTO form) {
         LOG.info("Signing up");
         accessService.signUp(form);
         // TODO login and redirect to index
