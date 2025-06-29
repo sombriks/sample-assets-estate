@@ -3,6 +3,7 @@ package sample.assets.estate.endpoints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,7 @@ public class Index {
     }
 
     @GetMapping("menu")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView menu(@AuthenticationPrincipal UserDetails userDetails) {
         LOG.info("menu fragment");
         UserDetailsDTO userDetailsDTO = (UserDetailsDTO) userDetails;
