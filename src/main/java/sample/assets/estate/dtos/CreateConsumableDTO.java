@@ -1,39 +1,29 @@
 package sample.assets.estate.dtos;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import sample.assets.estate.models.*;
 
 import java.time.LocalDateTime;
 
-public class ConsumableDTO {
+public class CreateConsumableDTO {
 
-    private Long id;
-    private Long assetId;
     @NotBlank
     private String name;
     private String description;
+    @NotNull
+    @Min(1)
     private Long departmentId;
+    @NotNull
+    @Min(0)
     private Double unitValue;
+    @NotNull
+    @Min(0)
     private Long amount;
     private String comment;
     private Long statusId;
     private Long reasonId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(Long assetId) {
-        this.assetId = assetId;
-    }
 
     public String getName() {
         return name;
@@ -100,7 +90,6 @@ public class ConsumableDTO {
     }
 
     public Asset fill(Asset asset) {
-        asset.setId(assetId);
         asset.setName(name);
         asset.setDescription(description);
         asset.setType(AssetType.CONSUMABLE);
@@ -116,12 +105,9 @@ public class ConsumableDTO {
         consumablePosition.setUnitValue(unitValue);
         consumablePosition.setStarted(LocalDateTime.now());
         consumablePosition.setDepartment(new Department(departmentId));
-        if (reasonId != null && reasonId > 0)
-            consumablePosition.setChangeReason(new ChangeReason(reasonId));
-        if (statusId != null && statusId > 0)
-            consumablePosition.setAssetStatus(new AssetStatus(statusId));
-        if (consumablePosition.getCreated() == null)
-            consumablePosition.setCreated(LocalDateTime.now());
+        consumablePosition.setChangeReason(ChangeReason.INCLUSION);
+        consumablePosition.setAssetStatus(AssetStatus.AVAILABLE);
+        consumablePosition.setCreated(LocalDateTime.now());
         consumablePosition.setUpdated(LocalDateTime.now());
         return consumablePosition;
     }

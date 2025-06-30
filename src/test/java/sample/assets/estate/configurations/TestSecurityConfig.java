@@ -1,5 +1,6 @@
 package sample.assets.estate.configurations;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +25,10 @@ public class TestSecurityConfig {
     }
 
     @Bean
-    public BaseRequest request(TestRestTemplate restTemplate) {
-        return new BaseRequest(restTemplate);
+    public BaseRequest request(
+            TestRestTemplate restTemplate,
+            @Value("${test-credentials}") String testCredentials) {
+        return new BaseRequest(restTemplate,  testCredentials);
     }
 
 }

@@ -14,7 +14,8 @@ public interface ConsumablesPosition extends JpaRepository<ConsumablePosition, L
           from ConsumablePosition  cp
          where cp.id in (select max (cp.id) 
                            from ConsumablePosition  cp
-                          where lower(cp.asset.name) like '%'||lower(:q)||'%'
+                          where cp.asset.type.id = 1
+                            and lower(cp.asset.name) like '%'||lower(:q)||'%'
                              or lower(cp.department.name) like '%'||lower(:q)||'%'
                        group by cp.asset.id) 
     """)

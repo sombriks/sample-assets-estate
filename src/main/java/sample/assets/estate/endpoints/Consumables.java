@@ -1,5 +1,6 @@
 package sample.assets.estate.endpoints;
 
+import com.oracle.truffle.api.dsl.CreateCast;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
-import sample.assets.estate.dtos.ConsumableDTO;
+import sample.assets.estate.dtos.CreateConsumableDTO;
+import sample.assets.estate.dtos.UpdateConsumableDTO;
 import sample.assets.estate.models.ConsumablePosition;
 import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.ConsumablesPosition;
@@ -68,7 +70,7 @@ public class Consumables {
     @PostMapping
     public ResponseEntity createConsumable(
             @AuthenticationPrincipal UserDetails userDetails,
-            @ModelAttribute @Valid ConsumableDTO form
+            @ModelAttribute @Valid CreateConsumableDTO form
     ) {
         User user = accessService.findUserByEmail(userDetails.getUsername()).get();
 
@@ -86,7 +88,7 @@ public class Consumables {
     @PutMapping
     public ResponseEntity updateConsumable(
             @AuthenticationPrincipal UserDetails userDetails,
-            @ModelAttribute @Valid ConsumableDTO form
+            @ModelAttribute @Valid UpdateConsumableDTO form
     ) {
         User user = accessService.findUserByEmail(userDetails.getUsername()).get();
 

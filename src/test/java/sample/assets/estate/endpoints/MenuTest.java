@@ -1,6 +1,5 @@
 package sample.assets.estate.endpoints;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +29,7 @@ public class MenuTest {
     }
 
     @Test
-    public void shouldNotGetMenu() {
+    public void shouldNOTGetMenu() {
         var result = request.get("/menu");
         assertThat(401, equalTo(result.getStatusCode().value()));
         assertThat(result.getBody(), containsString("Unauthorized"));

@@ -41,9 +41,10 @@ public class Auth {
     }
 
     @GetMapping
-    public String index() {
-        LOG.info("Accessing the auth page");
-        return "pages/auth";
+    public ModelAndView index(
+            @RequestParam(required = false, defaultValue = "false") Boolean created) {
+        LOG.info("Accessing the auth page. Created: [{}]", created);
+        return new ModelAndView("pages/auth", Map.of("created", created));
     }
 
     @GetMapping("login")
@@ -59,7 +60,8 @@ public class Auth {
     }
 
     @GetMapping("groups/options")
-    public ModelAndView groupsOptions(Long defaultValue) {
+    public ModelAndView groupsOptions(
+            @RequestParam(required = false, defaultValue = "0") Long defaultValue) {
         List<Group> groups = groupsRepository.findAll();
         Map<String, Object> model = Map.of(
                 "defaultValue", defaultValue,
@@ -68,7 +70,8 @@ public class Auth {
     }
 
     @GetMapping("departments/options")
-    public ModelAndView departmentsOptions(Long defaultValue) {
+    public ModelAndView departmentsOptions(
+            @RequestParam(required = false, defaultValue = "0") Long defaultValue) {
         List<Department> departments = departmentsRepository.findAll();
         Map<String, Object> model = Map.of(
                 "defaultValue", defaultValue,
@@ -80,7 +83,6 @@ public class Auth {
     public ResponseEntity signUp(@Valid @ModelAttribute RegisterDTO form) {
         LOG.info("Signing up");
         accessService.signUp(form);
-        // TODO login and redirect to index
         return ResponseEntity
                 .status(HttpStatus.SEE_OTHER)
                 .location(URI.create("/auth?created=true"))

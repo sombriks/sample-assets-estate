@@ -1,6 +1,6 @@
 package sample.assets.estate.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import sample.assets.estate.models.Login;
 import sample.assets.estate.models.User;
 
@@ -10,10 +10,16 @@ public class RegisterDTO {
     @NotBlank
     private String name;
     @NotBlank
+    @Email
     private String email;
     @NotBlank
+    @Size(min = 4)
     private String password;
+    @NotNull
+    @Min(0)
     private Long groupId;
+    @NotNull
+    @Min(0)
     private Long departmentId;
 
     public String getName() {

@@ -1,10 +1,12 @@
 package sample.assets.estate.services;
 
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import sample.assets.estate.dtos.ConsumableDTO;
-import sample.assets.estate.models.*;
+import sample.assets.estate.dtos.CreateConsumableDTO;
+import sample.assets.estate.dtos.UpdateConsumableDTO;
+import sample.assets.estate.models.Asset;
+import sample.assets.estate.models.ConsumablePosition;
+import sample.assets.estate.models.User;
 import sample.assets.estate.repositories.Assets;
 import sample.assets.estate.repositories.ConsumablesPosition;
 
@@ -25,22 +27,21 @@ public class ConsumablesService {
         return repository.findLatestPosition(q, user, sort);
     }
 
-    public ConsumablePosition newConsumable(User user, ConsumableDTO form) {
+    public ConsumablePosition newConsumable(User user, CreateConsumableDTO form) {
         Asset asset = form.fill(new Asset());
         assetsRepository.save(asset);
         ConsumablePosition consumablePosition = form.fill(new ConsumablePosition());
         consumablePosition.setAsset(asset);
         consumablePosition.setAuthor(user);
-        consumablePosition.setChangeReason(ChangeReason.INCLUSION);
-        consumablePosition.setAssetStatus(AssetStatus.AVAILABLE);
         repository.save(consumablePosition);
         return consumablePosition;
     }
 
-    public ConsumablePosition updateConsumable(User user, @Valid ConsumableDTO form) {
+    public ConsumablePosition updateConsumable(User user, UpdateConsumableDTO form) {
         ConsumablePosition consumable = repository.findById(form.getId()).orElse(null);
-        if (consumable == null)
-            return null;
+        if (consumable == null) return null;
+        Asset asset = form.fill(consumable.getAsset());
+        assetsRepository.save(asset);
         // new consumable version
         ConsumablePosition newConsumable = form.fill(new ConsumablePosition());
         newConsumable.setAuthor(user);

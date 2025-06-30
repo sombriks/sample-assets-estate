@@ -3,3 +3,4 @@ spring:
     url: "jdbc:sqlite::memory:"
   liquibase:
     contexts: test
+test-credentials: "test@test.com:1234"

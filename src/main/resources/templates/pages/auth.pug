@@ -5,3 +5,7 @@ include ../components/auth/login-register
 block base-content
     h1.title Identify Yourself
     +login-register
+    if created
+        script.
+          document.addEventListener("DOMContentLoaded", () =>
+            notify("User created. Login now.", "is-success"))

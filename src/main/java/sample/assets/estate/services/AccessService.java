@@ -37,7 +37,7 @@ public class AccessService {
 
     @Transactional
     public User signUp(RegisterDTO form) {
-        // create an user
+        // create a user
         User user = form.fill(new User());
         user.setCreated(LocalDateTime.now());
         users.save(user);

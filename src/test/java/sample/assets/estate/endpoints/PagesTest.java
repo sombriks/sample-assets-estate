@@ -3,9 +3,9 @@ package sample.assets.estate.endpoints;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import sample.assets.estate.configurations.BaseRequest;
 import sample.assets.estate.configurations.TestSecurityConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,66 +17,66 @@ import static org.hamcrest.Matchers.containsString;
 public class PagesTest {
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private BaseRequest request;
 
     @Test
     public void shouldGetAssetsStatuses() {
-        String result = restTemplate.getForObject("/assets/status//options", String.class);
-        assertThat(result, containsString("Available"));
+        var result = request.get("/assets/status//options");
+        assertThat(result.getBody(), containsString("Available"));
     }
 
     @Test
     public void shouldGetAssetsChangeReasons() {
-        String result = restTemplate.getForObject("/assets/change-reasons//options", String.class);
-        assertThat(result, containsString("Available"));
+        var result = request.get("/assets/change-reasons//options");
+        assertThat(result.getBody(), containsString("Available"));
     }
 
     @Test
     public void shouldGetBuildings() {
-        String result = restTemplate.getForObject("/buildings", String.class);
-        assertThat(result, containsString("Buildings management"));
+        var result = request.get("/buildings");
+        assertThat(result.getBody(), containsString("Buildings management"));
     }
 
     @Test
     public void shouldGetConsumables() {
-        String result = restTemplate.getForObject("/consumables", String.class);
-        assertThat(result, containsString("Consumables management"));
+        var result = request.get("/consumables");
+        assertThat(result.getBody(), containsString("Consumables management"));
     }
 
     @Test
     public void shouldGetDepartments() {
-        String result = restTemplate.getForObject("/departments", String.class);
-        assertThat(result, containsString("Unauthorized"));
+        var result = request.getWithAuth("/departments");
+        assertThat(result.getBody(), containsString("Departments management"));
     }
 
     @Test
     public void shouldGetFurniture() {
-        String result = restTemplate.getForObject("/furniture", String.class);
-        assertThat(result, containsString("Furniture management"));
+        var result = request.get("/furniture");
+        assertThat(result.getBody(), containsString("Furniture management"));
     }
 
     @Test
     public void shouldGetIndex() {
-        String result = restTemplate.getForObject("/", String.class);
-        assertThat(result, containsString("Assets Administrator"));
+        var result = request.getWithAuth("/");
+        assertThat(result.getBody(), containsString("Assets Administrator"));
     }
 
     @Test
     public void shouldGetProfile() {
-        String result = restTemplate.getForObject("/profile", String.class);
-        assertThat(result, containsString("User profile"));
+        var result = request.get("/profile");
+        assertThat(result.getBody(), containsString("User profile"));
     }
 
     @Test
     public void shouldGetUsers() {
-        String result = restTemplate.getForObject("/users", String.class);
-        assertThat(result, containsString("Unauthorized"));
+        var result = request.getWithAuth("/users");
+        assertThat(result.getBody(), containsString("Users management"));
     }
 
     @Test
     public void shouldGetVehicles() {
-        String result = restTemplate.getForObject("/vehicles", String.class);
-        assertThat(result, containsString("Vehicles management"));
+        var result = request.get("/vehicles");
+        assertThat(result.getBody(), containsString("Vehicles management"));
     }
 
 }
