@@ -2,8 +2,6 @@ package sample.assets.estate.configurations;
 
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-import sample.assets.estate.models.Login;
-import sample.assets.estate.repositories.Logins;
 
 import java.util.Base64;
 
