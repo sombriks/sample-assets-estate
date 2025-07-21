@@ -57,14 +57,14 @@ public class Consumables {
         User user = accessService.findUserByEmail(userDetails.getUsername()).get();
         List<ConsumablePosition> consumables = service.listConsumables(q, user,
                 Sort.by(Sort.Direction.ASC, "asset.name"));
-        ConsumablePosition detail = repository.findById(detailId).orElse(null);
-        Map<String, Object> model = new HashMap<>();
-        model.put("consumables", consumables);
-        model.put("created", created);
-        model.put("updated", updated);
-        model.put("detail", detail);
-        model.put("add", add);
-        return new ModelAndView("components/consumables/consumables-list", model);
+        ConsumablePosition detail = repository.findById(detailId)
+                .orElse(new ConsumablePosition());
+        return new ModelAndView("components/consumables/consumables-list")
+                .addObject("consumables", consumables)
+                .addObject("created", created)
+                .addObject("updated", updated)
+                .addObject("detail", detail)
+                .addObject("add", add);
     }
 
     @PostMapping

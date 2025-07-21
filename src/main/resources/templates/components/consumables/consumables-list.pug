@@ -31,7 +31,7 @@ if consumables != null
         if add
             tr
                 td(colspan=10)
-                    +consumable-form(".table>tbody")
+                    +consumable-form(".table>tbody", detail)
         each consumable in consumables
             tr
                 td= consumable.getAsset().getId() + "-" + consumable.getId()
